@@ -1,0 +1,97 @@
+{
+    "ally": {
+        "link": {
+            "newWindow": ", Opens in a new window.",
+            "newWindowExternal": ", Opens another site in a new window that may not meet accessibility guidelines."
+        }
+    },
+    "tabs": {
+        "book": "Book",
+        "manageTrips": "Manage trips",
+        "checkin": "Check-in",
+        "flightStatus": "Flight status"
+    },
+    "booking": {
+        "flight": "Flight",
+        "searchFlight": "Search flight",
+        "vacationPackages": "Vacation packages",
+        "searchVacationPackages": "Search vacation packages",
+        "hotel": "Hotel",
+        "car": "Car",
+        "roundTrip": "Round Trip",
+        "oneWay": "One way",
+        "redeemMiles": "Redeem miles",
+        "airPass": "<b>Air</b>Pass",
+        "from": "From",
+        "fromPlaceholder": "City or airport",
+        "fromAirportLookUp": "From airport look up",
+        "to": "To",
+        "toPlaceholder": "City or airport",
+        "toAirportLookUp": "To airport look up",
+        "numberOfPassengers": "Number of passengers",
+        "departure": "Depart",
+        "departurePlaceholder": "mm/dd/yyyy",
+        "return": "Return",
+        "returnPlaceholder": "mm/dd/yyyy",
+        "farePreference": "Fare preference",
+        "coach": "Coach",
+        "business": "Business",
+        "first": "First",
+        "search": "Search",
+        "bagFees": "Bag and optional fees",
+        "bagFeesAllowancesChanges": "Changes to checked bag fees and allowances",
+        "idRequirements": "ID requirements are changing",
+        "basicEconomyBagFeesChanges": "",
+        "advancedSearch": "Advanced / Multi-city search",
+        "tripLink": "Corporate booking"
+    },
+    "checkin": {
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "recordLocator": "Confirmation/Record Locator",
+        "ticketNumber": "Ticket Number",
+        "search": "Find your trip"
+    },
+    "flightStatus": {
+        "searchBy": "Search by",
+        "cities": "Cities",
+        "flightNumber": "Flight Number",
+        "date": "Date",
+        "wn4": "Wednesday, November 4",
+        "tn5": "Thursday, November 5",
+        "fn6": "Friday, November 6",
+        "createStatusNotification": "Create flight status notification"
+    },
+    "manageTrips": {
+        "manageTrips": "Manage Trips",
+        "viewCanceledTrips": "View Canceled Trips"
+    },
+    "global": {
+        "airportlookup": {
+            "heading": {
+                "title": "Airport lookup",
+                "message": "Please tell us where the airport is located."
+            },
+            "airport": "Airport",
+            "airportCode": "Airport code",
+            "country": {
+                "text": "Country / region",
+                "select": "Select a country / region"
+            },
+            "province": {
+                "text": "Province",
+                "select": "Select a Province"
+            },
+            "state": {
+                "text": "State",
+                "select": "Select a State"
+            },
+            "city": {
+                "text": "City"
+            }
+        }
+    },
+    "dateFormats": {
+        "short": "mm/dd/yyyy"
+    }
+}

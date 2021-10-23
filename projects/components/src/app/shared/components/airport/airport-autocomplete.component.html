@@ -1,0 +1,11 @@
+<div class="autocomplete-wrapper">
+    <div #searchResult
+         *ngIf="airportDataList && airportDataList.length > 0 && isFieldFocused"
+         class="autocomplete-container">
+        <list-item (itemSelected)="selectItem($event)"
+                   *ngFor="let option of airportDataList"
+                   [display]="formatAirportName(option)"
+                   [item]="option">
+        </list-item>
+    </div>
+</div>

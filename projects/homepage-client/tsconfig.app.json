@@ -1,0 +1,14 @@
+{
+    "extends": "../../tsconfig",
+    "compilerOptions": {
+        "outDir": "./dist/out-tsc/homepage-client",
+        "types": []
+    },
+    "files": [
+        "./src/main.ts",
+        "./src/polyfills.ts"
+    ],
+    "include": [
+        "src/**/*.ts"
+    ]
+}

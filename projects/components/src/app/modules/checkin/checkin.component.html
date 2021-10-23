@@ -1,0 +1,91 @@
+<div class="tab-container grid-container"
+     id="checkin-tab-panel"
+     role="tabpanel">
+    <form #ngForm="ngForm"
+          (ngSubmit)="submitForm(inputForm)"
+          [formGroup]="inputForm">
+        <div class="grid-x grid-margin-x">
+            <div class="cell small-12 medium-4">
+                <div class="form-field-container">
+                    <input #firstName
+                           ailInput
+                           controlName="firstName"
+                           placeholder=""/>
+                    {{ translate('checkin.firstName') }}
+                    <ail-error *ngIf="inputForm.get('firstName').errors?.required && inputForm.get('firstName').touched">This is a required field</ail-error>
+                    <!--                    <ail-error *ngIf="inputForm.get('fromAirport').errors?.minlength && inputForm.get('fromAirport').touched">Min length is 2 characters</ail-error>-->
+                    <!--                    <ail-error *ngIf="inputForm.get('fromAirport').errors?.maxlength && inputForm.get('fromAirport').touched">Max length is 20 characters</ail-error>-->
+                    <ail-error *ngIf="inputForm.get('firstName').errors?.required && inputForm.get('firstName').touched"
+                               hidden="true">This is a required field
+                    </ail-error>
+                    <!--                    <ail-error hidden="true" *ngIf="inputForm.get('fromAirport').errors?.minlength && inputForm.get('fromAirport').touched">Min length is 2 characters</ail-error>-->
+                    <!--                    <ail-error hidden="true" *ngIf="inputForm.get('fromAirport').errors?.maxlength && inputForm.get('fromAirport').touched">Max length is 20 characters</ail-error>-->
+                </div>
+            </div>
+            <div class="cell small-12 medium-4">
+                <div class="form-field-container">
+                    <input #lastName
+                           ailInput
+                           controlName="lastName"
+                           placeholder=""/>
+                    {{ translate('checkin.lastName') }}
+                    <ail-error *ngIf="inputForm.get('lastName').errors?.required && inputForm.get('lastName').touched">This is a required field</ail-error>
+                    <!--                    <ail-error *ngIf="inputForm.get('fromAirport').errors?.minlength && inputForm.get('fromAirport').touched">Min length is 2 characters</ail-error>-->
+                    <!--                    <ail-error *ngIf="inputForm.get('fromAirport').errors?.maxlength && inputForm.get('fromAirport').touched">Max length is 20 characters</ail-error>-->
+                    <ail-error *ngIf="inputForm.get('lastName').errors?.required && inputForm.get('lastName').touched"
+                               hidden="true">This is a required field
+                    </ail-error>
+                    <!--                    <ail-error hidden="true" *ngIf="inputForm.get('fromAirport').errors?.minlength && inputForm.get('fromAirport').touched">Min length is 2 characters</ail-error>-->
+                    <!--                    <ail-error hidden="true" *ngIf="inputForm.get('fromAirport').errors?.maxlength && inputForm.get('fromAirport').touched">Max length is 20 characters</ail-error>-->
+                </div>
+            </div>
+            <div class="cell small-12 padding-top-1 padding-bottom-1 view-res-message">
+                Enter your ticket number or record locator to check your credit. <a ail-link
+                                                                                    href="#"
+                                                                                    rel="noopener noreferrer"
+                                                                                    target="_blank"
+                                                                                    type="newWindow">Learn more about travel credits</a></div>
+            <div class="cell small-12 medium-4">
+                <div class="form-field-container">
+                    <input #recordLocator
+                           ailInput
+                           controlName="recordLocator"
+                           placeholder="ex. JCQNHD"/>
+                    {{ translate('checkin.recordLocator') }}
+                    <ail-error *ngIf="inputForm.get('recordLocator').errors?.required && inputForm.get('recordLocator').touched">This is a required field</ail-error>
+                    <!--                    <ail-error *ngIf="inputForm.get('recordLocator').errors?.minlength && inputForm.get('recordLocator').touched">Min length is 2 characters</ail-error>-->
+                    <!--                    <ail-error *ngIf="inputForm.get('recordLocator').errors?.maxlength && inputForm.get('recordLocator').touched">Max length is 20 characters</ail-error>-->
+                    <ail-error *ngIf="inputForm.get('recordLocator').errors?.required && inputForm.get('recordLocator').touched"
+                               hidden="true">This is a required field
+                    </ail-error>
+                    <!--                    <ail-error hidden="true" *ngIf="inputForm.get('fromAirport').errors?.minlength && inputForm.get('fromAirport').touched">Min length is 2 characters</ail-error>-->
+                    <!--                    <ail-error hidden="true" *ngIf="inputForm.get('fromAirport').errors?.maxlength && inputForm.get('fromAirport').touched">Max length is 20 characters</ail-error>-->
+                </div>
+            </div>
+            <div class="cell small-12 medium-4">
+                <div class="form-field-container">
+                    <input #ticketNumber
+                           ailInput
+                           controlName="ticketNumber"
+                           placeholder="ex. 001234567890"/>
+                    {{ translate('checkin.ticketNumber') }}
+                    <ail-error *ngIf="inputForm.get('ticketNumber').errors?.required && inputForm.get('ticketNumber').touched">This is a required field</ail-error>
+                    <!--                    <ail-error *ngIf="inputForm.get('ticketNumber').errors?.minlength && inputForm.get('ticketNumber').touched">Min length is 2 characters</ail-error>-->
+                    <!--                    <ail-error *ngIf="inputForm.get('ticketNumber').errors?.maxlength && inputForm.get('ticketNumber').touched">Max length is 20 characters</ail-error>-->
+                    <ail-error *ngIf="inputForm.get('ticketNumber').errors?.required && inputForm.get('ticketNumber').touched"
+                               hidden="true">This is a required field
+                    </ail-error>
+                    <!--                    <ail-error hidden="true" *ngIf="inputForm.get('fromAirport').errors?.minlength && inputForm.get('fromAirport').touched">Min length is 2 characters</ail-error>-->
+                    <!--                    <ail-error hidden="true" *ngIf="inputForm.get('fromAirport').errors?.maxlength && inputForm.get('fromAirport').touched">Max length is 20 characters</ail-error>-->
+                </div>
+            </div>
+            <div class="cell small-12 text-right">
+                <button ail-primary-button
+                        aria-disabled="false"
+                        class="button primary"
+                        id="submitCheckinButton"
+                        type="submit">{{ translate('checkin.search') }}</button>
+            </div>
+        </div>
+    </form>
+</div>

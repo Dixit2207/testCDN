@@ -1,0 +1,73 @@
+@Library('SharedLibrary') _
+
+def buildProject = 'AA-DevOps/CustTech-Web-Product/job/homepage/aa-ct-homepage-client/master'
+
+pipeline {
+    agent { label 'Builder' }
+
+    options {
+        buildDiscarder(logRotator(daysToKeepStr: '90'))
+        disableConcurrentBuilds()
+    }
+
+    parameters {
+        choice(choices: ['qa', 'prod'], description: 'Environment to deploy too', name: 'applicationEnvironment')
+        run(description: 'build to deploy', filter: 'SUCCESSFUL', name: 'deployment', projectName: buildProject)
+    }
+
+    environment {
+        APP_NAME = 'aa-ct-homepage-client'
+        SLACK_CHANNEL = "#ct-web-product-homepage-notify"
+        SLACK_TOKEN = credentials('homepage-slack-token')
+        SLACK_BASEURL = 'https://americanairlines.slack.com/services/hooks/jenkins-ci/'
+    }
+
+    stages {
+        stage('Get Artifact') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'Nexus3upload', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    artifactDownload(
+                            username: "${USERNAME}",
+                            password: "${PASSWORD}",
+                            appName: "${APP_NAME}" as String,
+                            groupID: "com.aa.ct.loyalty.privacy",
+                            artifactID: "${APP_NAME}" as String,
+                            version: "${env.deployment_NAME}" as String,
+                            sourceRepo: "${env.APPLICATIONENVIRONMENT}-releases" as String)
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                withCredentials([string(credentialsId: 'ct-loyalty-digital-ibmcloud', variable: 'CF_API_KEY')]) {
+                    sh """
+                    export CF_HOME=$WORKSPACE
+                    cf login -a "https://api.${env.region}.cf.cloud.ibm.com" -o "AA-CustTech-Loyalty" -s data-privacy-${env.APPLICATIONENVIRONMENT} -u apikey -p $CF_API_KEY
+                    tar xvf ${APP_NAME}-${env.deployment_NAME}.tar.gz
+                    cf rename ${APP_NAME}-${env.APPLICATIONENVIRONMENT} ${APP_NAME}-${env.APPLICATIONENVIRONMENT}-venerable
+                    cp devops/cf-deployment/manifest.${env.APPLICATIONENVIRONMENT}.${env.REGION}.yml manifest.yml
+                    cf push
+                    cf delete "${APP_NAME}-${env.APPLICATIONENVIRONMENT}-venerable" -f
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            deleteDir()
+        }
+        success {
+            script {
+                slackSend channel: "${SLACK_CHANNEL}", message: "Deployment of ${APP_NAME} to ${env.APPLICATIONENVIRONMENT} ($env.REGION) has succeeded", color: "#008000", token: "${SLACK_TOKEN}", baseUrl: "${env.SLACK_BASEURL}"
+            }
+        }
+        failure {
+            script {
+                slackSend channel: "${SLACK_CHANNEL}", message: "Deploy of ${APP_NAME} to ${env.APPLICATIONENVIRONMENT} ($env.REGION) has failed. More detail can be found at: ${env.BUILD_URL}", color: "#ff0000", token: "${SLACK_TOKEN}", baseUrl: "${env.SLACK_BASEURL}"
+            }
+        }
+    }
+}

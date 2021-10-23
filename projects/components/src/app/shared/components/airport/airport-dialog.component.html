@@ -1,0 +1,63 @@
+<h2 tabindex="-1">{{ translate('global.airportlookup.heading.title') }}</h2>
+
+<div class="airport-form-container">
+    <form [formGroup]="airportForm">
+        <div>
+            <p>{{ translate('global.airportlookup.heading.message') }}</p>
+            <div class="grid-x grid-margin-x margin-top-2">
+                <ail-form-field class="large-6 medium-12 small-12 cell">
+                    <ail-label>{{ translate('global.airportlookup.country.text') }}</ail-label>
+                    <select ailInput (change)="selectCountry($event)"
+                                *ngIf="airportForm"
+                                controlName="country"
+                                id="country">
+                        <option selected
+                                value="--">{{ translate('global.airportlookup.country.select') }}</option>
+                        <option *ngFor="let country of data.countries"
+                                [value]="country.code">{{ country.name | titlecase }}</option>
+                    </select>
+                </ail-form-field>
+
+                <ail-form-field *ngIf="countryCode && states && states.length > 0"
+                     class="large-6 medium-12 small-12 cell">
+                    <ail-label>{{ translate('global.airportlookup.state.text') }}</ail-label>
+                    <select ailInput (change)="selectState($event)"
+                                *ngIf="airportForm"
+                                controlName="state"
+                                id="state">
+                        <option selected
+                                value="--">{{ translate('global.airportlookup.state.select') }}</option>
+                        <option *ngFor="let state of states"
+                                [value]="state.code">{{ state.name }}</option>
+                    </select>
+                </ail-form-field>
+
+            </div>
+        </div>
+    </form>
+
+    <table *ngIf="airports && airports.length > 0">
+        <caption class="show-for-sr"> Checked bag fees by cabin and region for the first bag.</caption>
+        <thead>
+        <tr>
+            <th scope="col">City</th>
+            <th scope="col">Airport</th>
+            <th scope="col">Airport code</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let airport of airports">
+            <td>{{ airport.city | titlecase }}</td>
+            <td>{{ airport.name }}</td>
+            <td align="center"><a (click)="selectAirport($event)"
+                                  class="text-underline"
+                                  href="#selectAirportCode">{{ airport.code }}</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="grid-x grid-margin-x align-right margin-top-1">
+    <div class="cell large-6">
+        <button ail-button ail-dialog-close blocked id="continueButton" type="button" (click)="close()">Close</button>
+    </div>
+</div>

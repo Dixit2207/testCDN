@@ -1,0 +1,30 @@
+@import "settings";
+@import "~@aileron/ui/scss/utils/mixins/font-text-size";
+@import "~@aileron/ui/scss/utils/functions/px-to-rem";
+@import "~@aileron/ui/scss/utils/grid/xy-grid/collapse";
+@import "pillbox";
+
+.item {
+    padding: 5px 10px;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    line-height: 18px;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #0078d2;
+    font-weight: 700;
+    width: 100%;
+    text-align: -webkit-match-parent;
+
+    &--active {
+        border: 1px solid $brandBlue;
+        color: #fff !important;
+        background-color: $brandBlue !important;
+    }
+
+    &:hover {
+        border: 1px solid $brandBlue;
+        color: #fff !important;
+        background-color: $brandBlue !important;
+    }
+}

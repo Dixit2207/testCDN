@@ -1,0 +1,34 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "./out-tsc/components",
+        "types": []
+    },
+    "files": [
+        "./src/main.ts",
+        "./src/polyfills.ts"
+    ],
+    "include": [
+        "./src/**/*.ts"
+    ],
+    "exclude": [
+        "./node_modules",
+        "./src/environments",
+        "./src/test.ts",
+        "./src/app/shared/components/tabs",
+        "./src/app/modules/hero",
+        "./src/app/modules/checkin",
+        "./src/app/modules/flight-status",
+        "./src/app/modules/manage-trips",
+        "./src/app/modules/booking",
+        "./src/app/shared/interfaces/ui-error.ts",
+        "./src/app/shared/components/datepicker/common.test-util.ts",
+        "./src/app/shared/components/datepicker/aileron-i18n/i18n.model.ts",
+        "./src/app/shared/components/datepicker/footer/keyboard-instructions.ts",
+        "./src/app/shared/components/datepicker/util/popup.ts",
+        "./src/app/shared/components/datepicker/util/scrollbar.ts",
+        "./src/app/shared/components/datepicker/util/triggers.ts",
+        "./src/app/shared/components/datepicker/util/accessibility/live.ts",
+        "./src/**/*.spec.ts"
+    ]
+}

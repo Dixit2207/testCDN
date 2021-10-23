@@ -1,0 +1,57 @@
+@Library('SharedLibrary') _
+
+def buildProject = 'AA-DevOps/CustTech-Web-Product/job/homepage/aa-ct-homepage-client/master'
+
+pipeline {
+    agent { label 'Builder' }
+
+    options {
+        buildDiscarder(logRotator(daysToKeepStr: '90'))
+        disableConcurrentBuilds()
+    }
+
+    environment {
+        APP_NAME = 'aa-ct-homepage-client'
+        SLACK_CHANNEL = "#ct-web-product-homepage-notify"
+        SLACK_TOKEN = credentials('homepage-slack-token')
+        SLACK_BASEURL = 'https://americanairlines.slack.com/services/hooks/jenkins-ci/'
+    }
+
+    parameters {
+        choice(choices: ['dev', 'stage'], description: 'Environment to promote from', name: 'promoteFrom')
+        run(description: 'build to deploy', filter: 'SUCCESSFUL', name: 'deployment', projectName: buildProject)
+    }
+
+    stages {
+        stage ('Promote Artifact') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'Nexus3upload', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    script {
+                        artifactPromote(
+                                username: env.USERNAME,
+                                password: env.PASSWORD,
+                                appName: "${APP_NAME}" as String,
+                                version: "${env.deployment_NAME}" as String,
+                                sourceRepo: "${(env.promoteFrom == 'dev') ? 'dev' : 'stage'}-releases" as String,
+                                targetRepo: "${(env.promoteFrom == 'dev') ? 'stage' : 'prod'}-releases" as String,
+                                status: "promoted"
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            script {
+                slackSend channel: "${SLACK_CHANNEL}", message: "Promotion of ${APP_NAME} from ${env.promoteFrom} to ${(env.promoteFrom == 'dev') ? 'stage' : 'prod'}-releases has succeeded", color: "#008000", token: "${SLACK_TOKEN}", baseUrl: "${env.SLACK_BASEURL}"
+            }
+        }
+        failure {
+            script {
+                slackSend channel: "${SLACK_CHANNEL}", message: "Promotion of ${APP_NAME} from ${env.promoteFrom} to ${(env.promoteFrom == 'dev') ? 'stage' : 'prod'}-releases has failed", color: "#ff0000", token: "${SLACK_TOKEN}", baseUrl: "${env.SLACK_BASEURL}"
+            }
+        }
+    }
+}

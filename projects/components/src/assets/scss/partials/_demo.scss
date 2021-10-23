@@ -1,0 +1,86 @@
+:root {
+    --tabs-base-height: 55px;
+}
+
+@media all and (max-width: 480px) {
+    .booking-tabs {
+        margin-top: -70px !important;
+        border: 3px solid green !important;
+
+        .ui-tabs-nav li {
+            background-color: white !important;
+            padding-top: 2px !important;
+            height: calc(var(--tabs-base-height) * 50%) !important;
+        }
+
+        .ui-tabs-anchor {
+            font-size: 14px !important;
+        }
+    }
+}
+
+@media all and (min-width: 480px) and (max-width: 640px) {
+    .booking-tabs {
+        margin-top: -90px !important;
+        border: 1px solid blue !important;
+
+        .ui-tabs-nav li {
+            background-color: white !important;
+            padding-top: 2px !important;
+            height: calc(var(--tabs-base-height) * 60%) !important;
+        }
+
+        .ui-tabs-anchor {
+            font-size: 16px !important;
+        }
+    }
+}
+
+@media all and (min-width: 640px) and (max-width: 768px) {
+    .booking-tabs {
+        margin-top: -120px !important;
+
+        .ui-tabs-nav li {
+            background-color: white !important;
+            padding-top: 8px !important;
+            height: var(--tabs-base-height);
+        }
+
+        .ui-tabs-anchor {
+            font-size: 18px !important;
+        }
+    }
+}
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+    .booking-tabs {
+        margin-top: -160px !important;
+
+        .ui-tabs-nav li {
+            background-color: white !important;
+            padding-top: 8px !important;
+            height: var(--tabs-base-height);
+        }
+
+        .ui-tabs-anchor {
+            font-size: 20px !important;
+        }
+    }
+}
+
+@media all and (min-width: 1024px) {
+    .booking-tabs {
+        //margin-top: -185px !important;
+        border: 1px solid green !important;
+
+        .ui-tabs-nav li {
+            background-color: white !important;
+            padding-top: 8px !important;
+            height: var(--tabs-base-height);
+        }
+
+        .ui-tabs-anchor {
+            font-size: 24px !important;
+        }
+    }
+}

@@ -1,0 +1,329 @@
+@import "settings";
+@import "~@aileron/ui/scss/settings/color-palette";
+@import "~@aileron/ui/scss/utils/typography/settings";
+@import "~@aileron/ui/scss/utils/mixins/font-text-size";
+
+.pillbox-container {
+    .pillbox-2 {
+        border-radius: 18px;
+        background-color: $ultraLightGray;
+        color: $darkBlue;
+        display: block;
+        float: left;
+        font-family: $sansFontFamilyRegular;
+        line-height: normal;
+        margin: $baseLineHeight/2 0 0;
+        overflow: hidden;
+        padding: $baseLineHeight/5 $baseLineHeight/2;
+        width: auto;
+        cursor: pointer;
+        font-size: 14px;
+
+        &:hover {
+            background-color: $brandBlue;
+            color: $white;
+        }
+
+        &.selected {
+            background-color: $brandBlue;
+            color: $white;
+        }
+
+        & > input[type="radio"] {
+            position: absolute;
+            top: -20px;
+        }
+    }
+}
+
+.pillbox {
+    border-radius: 18px;
+    background-color: $ultraLightGray;
+    color: $darkBlue;
+    display: block;
+    float: left;
+    font-family: $sansFontFamilyRegular;
+    line-height: normal;
+    margin: $baseLineHeight/2 0 0;
+    overflow: hidden;
+    padding: $baseLineHeight/5 $baseLineHeight/2;
+    width: auto;
+    cursor: pointer;
+    font-size: 14px;
+
+    &:hover {
+        background-color: $brandBlue;
+        color: $white;
+    }
+
+    &.selected {
+        background-color: $brandBlue;
+        color: $white;
+    }
+
+    & > input[type="radio"] {
+        position: absolute;
+        top: -20px;
+    }
+
+    + .pillbox {
+        margin-left: $baseLineHeight/2;
+
+        &.right {
+            margin-left: 0;
+            margin-right: $baseLineHeight/2;
+        }
+    }
+
+    &.-no-margin-top {
+        margin-top: 0;
+    }
+}
+
+.customComponent {
+    display: inline-block;
+
+    input[type="hidden"] {
+        border: 0;
+        clip: rect(0 0 0 0);
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+    }
+
+    input[type="radio"] {
+        border: 0;
+        clip: rect(0 0 0 0);
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+
+        & ~ label .control {
+            background-color: $white;
+            color: $white;
+            height: 20px;
+            width: 20px;
+            display: inline-block;
+            border: 1px solid $gray;
+            -webkit-box-shadow: inset 0 0 0 2px $white, inset 0 0 0 3px $lightGray;
+            -moz-box-shadow: inset 0 0 0 2px $white, inset 0 0 0 3px $lightGray;
+            box-shadow: inset 0 0 0 2px $white, inset 0 0 0 3px $lightGray;
+            vertical-align: middle;
+            border-radius: 50%;
+            margin: -2px 5px 0;
+        }
+
+        &:disabled ~ label {
+            color: $mediumGray !important;
+            background-color: $white;
+            user-select: none;
+            cursor: default;
+            pointer-events: none;
+
+            .control {
+                border: 1px solid $mediumGray !important;
+                opacity: 0.4;
+            }
+        }
+
+        & ~ label.is-error {
+            &::before {
+                content: none;
+            }
+
+            .control {
+                border: 1px solid $darkRed;
+            }
+        }
+
+        &:checked ~ label .control::before {
+            content: "";
+            height: 0;
+            width: 0;
+            margin: 3px;
+            display: inline-block;
+            border: 6px solid $brandBlue;
+            box-shadow: 0 0 0 1px $brandBlue;
+            border-radius: 50%;
+            background-color: $brandBlue;
+        }
+
+        &:checked:hover ~ label .control,
+        &:checked:focus ~ label .control,
+        &:checked ~ label .control:hover,
+        &:checked ~ label .control:focus {
+            -webkit-box-shadow: 0 0 0 1px $brandBlue;
+            -moz-box-shadow: 0 0 0 1px $brandBlue;
+            box-shadow: 0 0 0 1px $brandBlue;
+            border: 1px solid $brandBlue;
+            outline: 1px solid $brandBlue;
+        }
+
+        &:hover ~ label .control,
+        &:focus ~ label .control,
+        & ~ label .control:hover,
+        & ~ label .control:focus {
+            border: 2px solid $brandBlue;
+            outline: 1px solid $brandBlue;
+        }
+
+        &:checked ~ .pillbox,
+        &:hover ~ .pillbox,
+        &:focus ~ .pillbox,
+        ~ .pillbox:hover {
+            border: 1px solid $brandBlue;
+            background-color: $brandBlue;
+            color: $white;
+            margin: 1px 10px 1px 0;
+        }
+
+        &:hover ~ .pillbox,
+        &:focus ~ .pillbox,
+        ~ .pillbox:hover {
+            text-decoration: underline;
+        }
+
+        &:hover ~ label.is-error .control,
+        &:focus ~ label.is-error .control,
+        ~ label.is-error .control:hover,
+        ~ label.is-error .control:focus {
+            border: 2px solid $brandBlue;
+        }
+
+        &:checked {
+            &:hover ~ label.is-error .control,
+            &:focus ~ label.is-error .control,
+            ~ label.is-error .control:hover,
+            ~ label.is-error .control:focus {
+                -webkit-box-shadow: 0 0 0 1px $brandBlue;
+                -moz-box-shadow: 0 0 0 1px $brandBlue;
+                box-shadow: 0 0 0 1px $brandBlue;
+                border: 1px solid $brandBlue;
+            }
+        }
+    }
+
+    input[type="checkbox"] {
+        &:checked ~ label .control {
+            -webkit-box-shadow: inset 0 0 0 2px $white, inset 0 0 0 3px $brandBlue;
+            -moz-box-shadow: inset 0 0 0 2px $white, inset 0 0 0 3px $brandBlue;
+            box-shadow: inset 0 0 0 2px $white, inset 0 0 0 3px $brandBlue;
+            background-color: $brandBlue;
+
+            &::before {
+                content: "";
+                height: 4px;
+                width: 8px;
+                display: inline-block;
+                border: 2px solid $white;
+                border-top-style: none;
+                border-right-style: none;
+                margin: 4px;
+                -ms-transform: rotate(-45deg); /*IE 9*/
+                -webkit-transform: rotate(-45deg); /*Chrome, Safari, Opera*/
+                transform: rotate(-45deg);
+            }
+        }
+
+        &:hover ~ label .control,
+        &:focus ~ label .control,
+        & ~ label .control:hover,
+        & ~ label .control:focus {
+            outline: 1px solid $brandBlue;
+            border: 1px solid $brandBlue;
+        }
+
+        &:hover ~ label.is-error .control,
+        &:focus ~ label.is-error .control,
+        ~ label.is-error .control:hover,
+        ~ label.is-error .control:focus {
+            border: 1px solid $brandBlue;
+            outline: 1px solid $mediumGray;
+        }
+
+        & ~ label .control {
+            margin-right: 10px;
+        }
+    }
+
+    .pillbox {
+        background-color: $ultraLightGray;
+        color: $darkBlue;
+        margin: 2px 11px 2px 1px;
+
+        .control {
+            display: none !important;
+        }
+    }
+
+    &.-indent label {
+        position: relative;
+        padding-left: 30px;
+
+        .control {
+            left: 0;
+            position: absolute;
+            top: 3px;
+        }
+    }
+
+    &.-xspace label {
+        padding-left: 40px;
+    }
+
+    .lt-ie9 & {
+        display: inline;
+        position: relative;
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            position: static;
+            clip: auto;
+            padding: 0 !important;
+
+            ~ label .control {
+                display: none;
+            }
+        }
+
+        label {
+            display: inline;
+            width: auto;
+
+            &.pillbox {
+                float: none;
+            }
+        }
+
+        &.-indent {
+            display: inherit;
+
+            label {
+                display: inline-block;
+            }
+
+            input {
+                position: absolute;
+                top: 5px;
+                left: 5px;
+
+                &:focus ~ label {
+                    outline: 2px solid $focusColor;
+                }
+            }
+        }
+    }
+}
+
+.hidden-accessible {
+    border: 0 none;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}

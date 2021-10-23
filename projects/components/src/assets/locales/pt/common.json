@@ -1,0 +1,93 @@
+{
+    "ally": {
+        "link": {
+            "newWindow": ", Abre em uma nova janela.",
+            "newWindowExternal": ", Abre outro site em uma nova janela que pode não atender às diretrizes de acessibilidade."
+        }
+    },
+    "tabs": {
+        "book": "Reservar",
+        "manageTrips": "Gerenciar viagens",
+        "checkin": "Check-in",
+        "yourTrips": "Suas viagens / Check in",
+        "flightStatus": "Status de voo"
+    },
+    "booking": {
+        "flight": "Voo",
+        "searchFlight": "Search flight",
+        "vacationPackages": "",
+        "searchVacationPackages": "Buscar pacotes de f\\u00E9rias",
+        "hotel": "Hotel",
+        "car": "Carro",
+        "roundTrip": "Ida e volta",
+        "oneWay": "Somente ida",
+        "redeemMiles": "Resgatar milhas",
+        "airPass": "<b>Air</b>Pass",
+        "from": "De",
+        "fromPlaceholder": "Cidade ou aeroporto",
+        "fromAirportLookUp": "Pesquisar aeroporto de origem",
+        "to": "Para",
+        "toPlaceholder": "Cidade ou aeroporto",
+        "toAirportLookUp": "Pesquisar aeroporto de destino",
+        "numberOfPassengers": "Número de passageiros",
+        "departure": "Data de partida",
+        "departurePlaceholder": "dd/mm/aaaa",
+        "return": "Data de Retorno",
+        "returnPlaceholder": "dd/mm/aaaa",
+        "search": "Localizar voos",
+        "bagFees": "Taxas opcionais e de bagagem",
+        "bagFeesAllowancesChanges": "Alterações nas taxas e nos limites de bagagens despachadas",
+        "idRequirements": "ID requirements are changing",
+        "advancedSearch": "Busca avançada/várias cidades",
+        "tripLink": "Reserva corporativa"
+    },
+    "checkin": {
+        "firstName": "Primeiro nome",
+        "lastName": "Último nome",
+        "recordLocator": "Confirmação / Localizador de registro",
+        "ticketNumber": "Número do bilhete",
+        "search": "Número do bilhete"
+    },
+    "flightStatus": {
+        "searchBy": "Procurar por",
+        "cities": "Cidades",
+        "flightNumber": "Número do vôo",
+        "date": "Encontro",
+        "wn4": "Quarta-feira, 4 de novembro",
+        "tn5": "Quinta-feira, 5 de novembro",
+        "fn6": "\nSexta-feira, 6 de novembro",
+        "createStatusNotification": "Criar notificação de status de voo"
+    },
+    "manageTrips": {
+        "manageTrips": "Manage Trips",
+        "viewCanceledTrips": "View Canceled Trips"
+    },
+    "global": {
+        "airportlookup": {
+            "heading": {
+                "title": "Pesquisa de aeroporto",
+                "message": "Informe onde o aeroporto está localizado."
+            },
+            "airport": "Aeroporto",
+            "airportCode": "Código do aeroporto",
+            "country": {
+                "text": "País / região",
+                "select": "Selecione um país / região"
+            },
+            "province": {
+                "text": "Província",
+                "select": "Selecione um província"
+            },
+            "state": {
+                "text": "Estado",
+                "select": "Selecione um estado"
+            },
+            "city": {
+                "text": "Cidade"
+            }
+        }
+    },
+    "dateFormats": {
+        "short": "dd/mm/yyyy"
+    }
+}

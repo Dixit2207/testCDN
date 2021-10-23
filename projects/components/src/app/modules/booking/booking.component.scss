@@ -1,0 +1,36 @@
+@import "~@aileron/ui/scss/settings/color-palette";
+@import "~@aileron/ui/scss/utils/typography/settings";
+@import "~@aileron/ui/scss/utils/mixins/font-text-size";
+
+/*TODO: remove "tabs" once mat-tabs is fully tested*/
+//@import "tabs";
+@import "mat-tabs";
+
+:host {
+    .main {
+        max-width: 1100px;
+        margin: 0 auto 0;
+        background: $white;
+        padding-bottom: 10px;
+    }
+
+    #home-page-widgets {
+        background-image: url("/assets/images/shadow12-up.png");
+        background-position: 50% bottom;
+        background-repeat: no-repeat;
+        background-size: 100% 4px;
+    }
+
+    .tab-container {
+        background-color: $white;
+        position: relative;
+    }
+
+    .tab-panel {
+        display: none;
+
+        &.active {
+            display: block;
+        }
+    }
+}

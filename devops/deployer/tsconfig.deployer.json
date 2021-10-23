@@ -1,0 +1,19 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": "./",
+        "outDir": "./dist/deployer",
+        "sourceMap": true,
+        "allowSyntheticDefaultImports": true,
+        "target": "es5",
+        "module": "commonjs",
+        "types": [
+            "node"
+        ]
+    },
+    "exclude": [
+    ],
+    "files": [
+        "devops/deployer/deployer.ts"
+    ]
+}

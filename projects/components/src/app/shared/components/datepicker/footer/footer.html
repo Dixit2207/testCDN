@@ -1,0 +1,31 @@
+<div class="dp-footer-container">
+    <div class="dp-footer-btn-container">
+        <button (click)="today.emit(true)"
+                class="footer-buttons"
+                type="button">
+            {{ i18nTranslation[locale].currentText }}
+        </button>
+        <button (click)="closed.emit(true)"
+                class="footer-buttons"
+                type="button">
+            {{ i18nTranslation[locale].closeText }}
+        </button>
+    </div>
+    <ng-template *ngIf="additionInformation">
+        <hr class="my-0"/>
+        <div class="p-2 accessibility-instructions">
+            <h6>{{ instructions[locale].TITLE || instructions.en.TITLE }}</h6>
+            <ol>
+                <li>{{ instructions[locale].LEFT || instructions.en.LEFT }}</li>
+                <li>{{ instructions[locale].RIGHT || instructions.en.RIGHT }}</li>
+                <li>{{ instructions[locale].DOWN || instructions.en.DOWN }}</li>
+                <li>{{ instructions[locale].UP || instructions.en.UP }}</li>
+                <li>{{ instructions[locale].PGUP || instructions.en.PGUP }}</li>
+                <li>{{ instructions[locale].PGDOWN || instructions.en.PGDOWN }}</li>
+                <li>{{ instructions[locale].HOME || instructions.en.HOME }}</li>
+                <li>{{ instructions[locale].END || instructions.en.END }}</li>
+                <li>{{ instructions[locale].ESC || instructions.en.ESC }}</li>
+            </ol>
+        </div>
+    </ng-template>
+</div>

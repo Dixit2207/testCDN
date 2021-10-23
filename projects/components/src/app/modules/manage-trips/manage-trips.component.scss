@@ -1,0 +1,15 @@
+@import "settings";
+@import "~@aileron/ui/scss/utils/mixins/font-text-size";
+
+:host {
+    $baseFontSize: 14;
+    $standardFontFamily: arial, sans-serif;
+    $baseFontFamily: $standardFontFamily;
+    $baseLineHeight: 20px;
+
+    .tab-container {
+        background-color: $white;
+        position: relative;
+        min-height: 250px;
+    }
+}

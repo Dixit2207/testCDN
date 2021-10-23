@@ -1,0 +1,38 @@
+:host {
+    display: none;
+}
+
+@media only screen and (max-width: 640px) {
+    :host {
+        display: block;
+    }
+
+    .dp-header-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 1rem 2rem;
+    }
+
+    .dp-header-label {
+        font-family: AmericanSansLight, Helvetica, Arial, sans-serif;
+        font-weight: 300;
+        color: #00467f;
+        overflow: visible;
+        font-size: 1.5rem;
+        text-overflow: clip;
+    }
+
+    #dp-header-close-btn .icon-close {
+        cursor: pointer;
+        font-size: 1.71429rem;
+        display: block;
+    }
+
+    #dp-header-close-btn .icon-close::before {
+        -webkit-font-smoothing: antialiased;
+        content: '10e04c';
+        font-family: "American Icons";
+        font-size: 0.93333rem;
+    }
+}

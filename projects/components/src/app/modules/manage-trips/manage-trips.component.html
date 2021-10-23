@@ -1,0 +1,80 @@
+<div class="tab-container grid-container"
+     id="manage-trips-tab-panel"
+     role="tabpanel">
+    <form #ngForm="ngForm"
+          (ngSubmit)="submitForm(manageTripForm)"
+          [formGroup]="manageTripForm">
+
+        <div *ngIf="manageTripForm && inputFormInitialized"
+             class="grid-container">
+
+            <div class="grid-x grid-margin-x">
+                <div *ngIf="manageTripForm"
+                     class="cell small-12 medium-12 large-4">
+                    <div class="grid-x">
+                        <div class="cell small-6 medium-auto">
+                            <div class="field field--radio flightTypeRadio">
+                                <input class="field__control field__control--hidden"
+                                       formControlName="findYourTripFor"
+                                       id="manageTrips"
+                                       type="radio"
+                                       value="roundTrip">
+                                <label class="field__label"
+                                       for="manageTrips">
+                                    <span class="field__as-control"></span>{{ translate('manageTrips.manageTrips') }}</label>
+                            </div>
+                        </div>
+                        <div class="cell small-6 medium-auto">
+                            <div class="field field--radio flightTypeRadio">
+                                <input class="field__control field__control--hidden"
+                                       formControlName="findYourTripFor"
+                                       id="canceledTrips"
+                                       type="radio"
+                                       value="oneWay">
+                                <label class="field__label"
+                                       for="canceledTrips">
+                                    <span class="field__as-control"></span>{{ translate('manageTrips.viewCanceledTrips') }}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-x grid-margin-x">
+                <div class="cell small-12 medium-4">
+                    <input ailInput
+                           controlName="firstName"
+                           id="findReservationForm.firstName"
+                           placeholder=""/>
+                    {{ translate('checkin.firstName') }}
+                </div>
+                <div class="cell small-12 medium-4">
+                    <input ailInput
+                           controlName="lastName"
+                           id="findReservationForm.lastName"
+                           placeholder=""/>
+                    {{ translate('checkin.lastName') }}
+                </div>
+                <div class="cell small-12 padding-top-1 padding-bottom-1 view-res-message">
+                    Check in beginning 24 hours and up to 45 minutes before your flight (90 minutes for international).
+                </div>
+                <div class="cell small-12 medium-4">
+                    <input ailInput
+                           controlName="recordLocator"
+                           id="findReservationForm.recordLocator"
+                           placeholder="ex. JCQNHD"/>
+                    {{ translate('checkin.recordLocator') }}
+                </div>
+                <div class="cell small-12 text-right">
+                    <button ail-primary-button
+                            aria-disabled="false"
+                            class="button primary"
+                            id="button2"
+                            name="button2"
+                            type="submit">{{ translate('checkin.search') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

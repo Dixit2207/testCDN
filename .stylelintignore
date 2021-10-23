@@ -1,0 +1,13 @@
+./**/*.js
+dist
+out
+projects/components/src/app/modules/app*.scss
+projects/components/src/app/modules/booking/**/*.scss
+projects/components/src/app/modules/hero/**/*.scss
+projects/components/src/app/modules/flight-status/**/*.scss
+projects/components/src/app/modules/checkin/**/*.scss
+projects/components/src/app/modules/manage-trips/**/*.scss
+projects/components/src/app/shared/components/tabs/*.scss
+projects/components/src/app/shared/components/datepicker/**/*.scss
+projects/homepage-client
+

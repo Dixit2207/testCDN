@@ -1,0 +1,99 @@
+@Library('SharedLibrary') _
+
+def buildProject = 'AA-DevOps/CustTech-Web-Product/homepage/aa-ct-homepage-client/master'
+
+pipeline {
+    agent {
+        docker {
+            label 'Builder'
+            image 'artifacts.aa.com/docker-all/node:12.18.4'
+        }
+    }
+
+    environment {
+        HOME = "${WORKSPACE}"
+        APP_NAME = 'aa-ct-homepage-client'
+        SLACK_CHANNEL = "#ct-web-product-homepage-notify"
+        VERSION = "1.0.${BUILD_NUMBER}-${BRANCH_NAME}-${GIT_COMMIT[0..6]}"
+        SLACK_TOKEN = credentials('homepage-slack-token')
+        SLACK_BASEURL = 'https://americanairlines.slack.com/services/hooks/jenkins-ci/'
+        deployTo == 'qa'
+    }
+
+    options {
+        buildDiscarder(logRotator(daysToKeepStr: '90'))
+        disableConcurrentBuilds()
+        timeout(time: 10, unit: 'MINUTES')
+        timestamps()
+    }
+
+//    parameters {
+//        choice(choices: ['qa', 'prod'], description: 'Environment to deploy to', name: 'deployTo')
+//        run(description: 'build to deploy', filter: 'SUCCESSFUL', name: 'deployment', projectName: buildProject)
+//    }
+
+    stages {
+
+        stage('Install') {
+            steps {
+                sh 'npm install && cd components && npm install'
+            }
+        }
+
+        stage('Lint') {
+            steps {
+                sh 'cd components && npm run lint'
+            }
+        }
+
+//        stage('Test') {
+//            steps {
+//                sh 'cd components && npm run test:jest'
+//            }
+//        }
+
+        stage('Build') {
+            steps {
+                sh "cd components && npm run build:${(env.deployTo == 'qa') ? 'qa' : 'prod'}"
+            }
+        }
+
+        stage('Deploy') {
+            when {
+                branch 'master'ghe
+            }
+
+            environment {
+                CREDS = credentials('homepage-qa-deployer')
+            }
+
+            steps {
+                sh "cd components && ./node_modules/typescript/bin/tsc --build tsconfig.deployer.json && node ./dist/deployer/deployer ${(env.deployTo == 'qa') ? '--qa' : '--prod'}"
+            }
+        }
+    }
+
+    post {
+        success {
+            script {
+                slackSend channel: "${SLACK_CHANNEL}",
+                    message: "Build of ${APP_NAME}: ${currentBuild.displayName} to ${(env.deployTo == 'qa') ? 'QA' : 'PROD'} has succeeded. More detail can be found at (<${env.BUILD_URL}|Open>)",
+                    color: "good",
+                    token: "${SLACK_TOKEN}",
+                    baseUrl: "${env.SLACK_BASEURL}"
+            }
+        }
+        failure {
+            script {
+                slackSend channel: "${SLACK_CHANNEL}",
+                    message: "Build of ${APP_NAME}: ${currentBuild.displayName} to ${(env.deployTo == 'qa') ? 'QA' : 'PROD'} has failed. More detail can be found at (<${env.BUILD_URL}|Open>)",
+                    color: "danger",
+                    token: "${SLACK_TOKEN}",
+                    baseUrl: "${env.SLACK_BASEURL}"
+            }
+        }
+        always {
+            deleteDir()
+        }
+    }
+}

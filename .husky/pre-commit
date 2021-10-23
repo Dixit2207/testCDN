@@ -1,0 +1,12 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npm run lint
+npm test
+
+#rm -dr coverage
+#mkdir ./coverage
+#cp ./dist/coverage/coverage-summary.json ./coverage/coverage-summary.json
+#npm run istanbul-badges-readme
+#rm -dr coverage
+#git add 'README.md'

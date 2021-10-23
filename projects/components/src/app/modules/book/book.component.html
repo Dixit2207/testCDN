@@ -1,0 +1,433 @@
+<ng-container *ngIf="loader">
+    <ail-loader>
+        Loading...
+    </ail-loader>
+</ng-container>
+
+<div [hidden]="!inputForm && !inputFormInitialized && loader"
+     id="book-tab-panel"
+     role="tabpanel"
+     class="grid-container">
+    <form #ngForm="ngForm"
+          (ngSubmit)="submitForm()"
+          [formGroup]="inputForm"
+          autocomplete="off">
+        <div class="grid-x grid-margin-x">
+            <div class="cell small-6 large-shrink">
+                <ul class="booking-type-group"
+                    role="radiogroup">
+                    <li class="customComponent"
+                        role="presentation">
+                        <input (click)="travelTypeChange($event)"
+                               formControlName="flight"
+                               id="flight-radio-book"
+                               type="radio"
+                               value="flight">
+
+                        <label class="pillbox"
+                               for="flight-radio-book">
+                            <span class="hidden-accessible">{{ 'booking.searchFlight' | aai18n }}</span>
+                            <span aria-hidden="true">{{ 'booking.flight' | aai18n }}</span>
+                        </label>
+                    </li>
+                    <li [hidden]="!canViewVacationOffer()"
+                        class="customComponent"
+                        role="presentation">
+                        <input (click)="travelTypeChange($event)"
+                               formControlName="flight"
+                               id="round-trip-hotel"
+                               type="radio"
+                               value="roundTripHotel">
+                        <label class="pillbox"
+                               for="round-trip-hotel">
+                            <span class="hidden-accessible">{{ 'booking.searchVacationPackages'| aai18n }}</span>
+                            <span aria-hidden="true">{{ 'booking.vacationPackages'| aai18n }}</span>
+                        </label>
+                    </li>
+                </ul>
+                <div class="travel-links-container">
+                    <a ail-link
+                       class="type-link"
+                       href="https://www.bookaahotels.com/index.html?aid=366304&amp;label=aa-homepage-sb&amp;lang=en&amp;selected_currency=USD"
+                       rel="noopener noreferrer"
+                       target="_blank"
+                       type="newWindow">
+                        {{ 'booking.hotel'| aai18n }} </a>
+                    <a ail-link
+                       class="type-link"
+                       href="https://www.aa.com/car?src=AAHOMESEARCH"
+                       rel="noopener noreferrer"
+                       target="_blank"
+                       type="newWindow">
+                        {{ 'booking.car'| aai18n }} </a>
+                </div>
+            </div>
+        </div>
+        <div [hidden]="!onFlightTab()"
+             class="grid-x grid-margin-x align-middle">
+            <div [hidden]="!inputForm"
+                 class="cell small-12 medium-12 large-4">
+                <ail-radio-group formControlName="tripType">
+                    <ail-radio-button (click)="radioTripTypeChange($event)"
+                                      id="roundTrip-radio"
+                                      value="roundTrip">{{ 'booking.roundTrip'| aai18n }}</ail-radio-button>
+                    <ail-radio-button (click)="radioTripTypeChange($event)"
+                                      id="oneWay-radio"
+                                      value="oneWay">{{ 'booking.oneWay'| aai18n }}</ail-radio-button>
+                </ail-radio-group>
+            </div>
+            <div class="cell small-12 medium-12 large-4">
+                <ail-checkbox #redeemMiles
+                              [checked]="redeemMilesChecked"
+                              (change)="redeemMilesValueChanged()"
+                              [disabled]="disableRedeemMiles"
+                              class="redeemMilesCheckBox"
+                              controlName="redeemMiles"
+                              id="redeemMiles"
+                              name="redeemMiles">{{ 'booking.redeemMiles'| aai18n }}</ail-checkbox>
+                <ail-checkbox #tripLink
+                              *ngIf="isTripLink"
+                              [checked]="tripLinkChecked"
+                              (change)="tripLinkValueChanged(airPassControl, tripLinkControl)"
+                              [disabled]="disableCorporateBooking"
+                              class="tripLinkCheckBox"
+                              controlName="tripLink"
+                              id="tripLink"
+                              name="tripLink">{{ 'booking.tripLink'| aai18n }}</ail-checkbox>
+                <ail-checkbox #airPass
+                              *ngIf="isAirPassMember"
+                              [checked]="airPassChecked"
+                              (change)="airPassValueChanged(airPassControl, tripLinkControl)"
+                              [disabled]="disableAirPass"
+                              class="airPassCheckBox"
+                              controlName="airPass"
+                              id="airPass"
+                              name="airPass"><span [innerHTML]="'booking.airPass'| aai18n"></span></ail-checkbox>
+            </div>
+        </div>
+        <div class="fixErrorContainer">
+            <ail-small-callout #errorCounts
+                               (click)="changeFocus()"
+                               *ngIf="errorCount() && submitted"
+                               id="fixErrorAlert"
+                               type="alert">
+                <p [innerHTML]="errorMessage"
+                   class="fixErrorMessage"></p>
+            </ail-small-callout>
+        </div>
+        <div class="grid-x grid-margin-x">
+            <ail-form-field class="cell small-12 medium-12 large-4">
+                <ail-label>{{ 'booking.from' | aai18n }}</ail-label>
+                <input #originAirport
+                       (focusin)="originAirportAutoComplete.onFocusIn()"
+                       (focusout)="originAirportAutoComplete.onFocusOut($event)"
+                       (keyup)="originAirportAutoComplete.handleKeydown($event)"
+                       ailInput
+                       formControlName="originAirport"
+                       id="originAirport"
+                       placeholder="{{ 'booking.fromPlaceholder' | aai18n }}"
+                       required="isRequired"
+                       value=""/>
+                <ail-error *ngIf="getOriginAirportError()"
+                           [id]="getOriginAirportError().id">{{ getOriginAirportError().errorMessage }}</ail-error>
+                <ail-error *ngIf="getOriginAirportError()"
+                           [id]="getOriginAirportError().id"
+                           hidden="true">{{ getOriginAirportError().errorMessage }}</ail-error>
+                <button (click)="showDialog('originAirport')"
+                        class="field__button"
+                        type="button"><span class="hidden-accessible"> {{ 'booking.fromAirportLookUp'| aai18n }}</span>
+                    <span aria-hidden="true"
+                          class="icon-search"></span></button>
+                <airport-autocomplete #originAirportAutoComplete
+                                      (selectAirport)="selectAirportAutoComplete($event, 'originAirport')"></airport-autocomplete>
+            </ail-form-field>
+            <ail-form-field class="cell small-12 medium-12 large-4">
+                <ail-label>{{ 'booking.to'| aai18n }}</ail-label>
+                <input #destinationAirport
+                       (focusin)="destinationAirportAutoComplete.onFocusIn()"
+                       (focusout)="destinationAirportAutoComplete.onFocusOut($event)"
+                       (keyup)="destinationAirportAutoComplete.handleKeydown($event)"
+                       ailInput
+                       formControlName="destinationAirport"
+                       id="destinationAirport"
+                       placeholder="{{ 'booking.toPlaceholder'| aai18n }}"
+                       required="isRequired"/>
+                <ail-error *ngIf="getDestinationAirportError()"
+                           [id]="getDestinationAirportError().id">{{ getDestinationAirportError().errorMessage }}</ail-error>
+                <ail-error *ngIf="getDestinationAirportError()"
+                           [id]="getDestinationAirportError().id"
+                           hidden="true">{{ getDestinationAirportError().errorMessage }}</ail-error>
+                <button (click)="showDialog('destinationAirport')"
+                        class="field__button"
+                        type="button"><span class="hidden-accessible">{{ 'booking.toAirportLookUp'| aai18n }}</span>
+                    <span aria-hidden="true"
+                          class="icon-search"></span>
+                </button>
+                <airport-autocomplete #destinationAirportAutoComplete
+                                      (selectAirport)="selectAirportAutoComplete($event, 'destinationAirport')"></airport-autocomplete>
+            </ail-form-field>
+            <ail-form-field
+                *ngIf="inputForm"
+                class="cell small-12 medium-12 large-4"
+                [ngClass]="{'ail-form-field-disabled': disablePassengerCount}"
+                >
+                <ail-label>{{ 'booking.numberOfPassengers'| aai18n }}</ail-label>
+                <select #passengerCount
+                        ailInput
+                        controlName="passengerCount"
+                        id="flightSearchForm.adultOrSeniorPassengerCount"
+                        name="passengerCount"
+                        [disabled]="disablePassengerCount">
+                    <option *ngFor="let opt of passengerCountList"
+                            [value]="opt">{{opt}}</option>
+
+                </select>
+            </ail-form-field>
+            <ail-form-field class="cell small-12 medium-4 calendar-container">
+                <input #dateRange="ailDatepicker"
+                       (closed)="datePickerConfig.onClose()"
+                       (dateSelect)="dateSelection($event)"
+                       (inputFormat)="datePickerConfig.setInputFormat($event)"
+                       [autoClose]="datePickerConfig.autoClose"
+                       [dayTemplate]="t"
+                       [displayMonths]="datePickerConfig.displayMonths"
+                       [locale]="datePickerConfig.locale"
+                       [maxDate]="maxDateValue"
+                       [minDate]="minDateValue"
+                       [navigation]="datePickerConfig.navigation"
+                       [outsideDays]="datePickerConfig.outsideDays"
+                       [startDate]="datePickerConfig.departDate"
+                       [markDisabled]="disableDates"
+                       ailDatepicker
+                       aria-hidden="true"
+                       tabindex="-1"/>
+                <ng-template #t
+                             let-date
+                             let-focused="focused">
+                    <div class="w-100 h-100">
+                            <span (mouseenter)="datePickerConfig.hoveredDate = date"
+                                  (mouseleave)="datePickerConfig.hoveredDate = null"
+                                  [class.faded]="datePickerConfig.isHovered(date) || datePickerConfig.isInside(date)"
+                                  [class.focused]="focused"
+                                  [class.range]="datePickerConfig.isRange(date)"
+                                  class="custom-day"
+                            >
+                              {{ date.day }}
+                            </span>
+                    </div>
+                </ng-template>
+                <ail-label class="field__label"
+                           for="depart-date-book">{{ 'booking.departure'| aai18n }}</ail-label>
+                
+                <input #departDate
+                       (click)="toggleCalendar(dateRange,'departDate')"
+                       (keyup.enter)="toggleCalendar(dateRange,'departDate')"
+                       ailInput
+                       aria-haspopup="dialog"
+                       formControlName="departDate"
+                       id="depart-date-book"
+                       placeholder="{{ 'booking.departurePlaceholder'| aai18n }}"
+                       required/>
+                <ail-error *ngIf="getDepartDateError()"
+                           [id]="getDepartDateError().id">
+                    {{ getDepartDateError().errorMessage }}
+                </ail-error>
+                <ail-error *ngIf="getDepartDateError()"
+                           [id]="getDepartDateError().id"
+                           hidden="true">
+                    {{ getDepartDateError().errorMessage }}
+                </ail-error>
+                <button (click)="toggleCalendar(dateRange,'departDate')"
+                        class="field__button"
+                        type="button"><span class="hidden-accessible">Open calendar: to navigate the calendar use the arrow keys.</span>
+                    <span aria-hidden="true"
+                          class="icon-calendar"></span></button>
+            </ail-form-field>
+            <ail-form-field
+                *ngIf="showReturnDate()"
+                class="cell small-12 medium-4 calendar-container">
+                <ail-label class="field__label"
+                           for="return-date-book">
+                    {{ 'booking.return'| aai18n }}
+                    <span aria-hidden="true"
+                          class="icon-required"></span>
+                </ail-label>
+                <input
+                    #returnDate
+                    (click)="toggleCalendar(dateRange,'returnDate')"
+                    (keyup.enter)="toggleCalendar(dateRange,'returnDate')"
+                    ailInput
+                    aria-haspopup="dialog"
+                    formControlName="returnDate"
+                    id="return-date-book"
+                    name="returnDate"
+                    placeholder="{{ 'booking.returnPlaceholder'| aai18n }}">
+                <ail-error *ngIf="getReturnDateError()"
+                           [id]="getReturnDateError().id">
+                    {{ getReturnDateError().errorMessage }}
+                </ail-error>
+                <ail-error *ngIf="getReturnDateError()"
+                           [id]="getReturnDateError().id"
+                           hidden="true">
+                    {{getReturnDateError().errorMessage }}
+                </ail-error>
+                <button (click)="toggleCalendar(dateRange,'returnDate')"
+                        *ngIf="showReturnDate()"
+                        class="field__button"
+                        type="button"><span class="hidden-accessible">Open calendar: to navigate the calendar use the arrow keys.</span>
+                    <span aria-hidden="true"
+                          class="icon-calendar"></span></button>
+            </ail-form-field>
+            <ail-form-field
+                *ngIf="onVacationTab()"
+                class="cell small-12 medium-12 large-4">
+                <ail-label>{{ 'booking.farePreference'| aai18n }}</ail-label>
+                <select ailInput
+                        controlName="farePreference"
+                        id="farePreference">
+                    <option value="coach">{{ 'booking.coach'| aai18n }}</option>
+                    <option value="business">{{ 'booking.business'| aai18n }}</option>
+                    <option value="first">{{ 'booking.first'| aai18n }}</option>
+                </select>
+            </ail-form-field>
+            <div *ngIf="onFlightTab()"
+                 [ngClass]="{ 'submit-search-button-oneWay': !showReturnDate() }"
+                 class="cell small-12 medium-12 large-4">
+                <button ail-primary-button
+                        aria-disabled="false"
+                        class="button primary expanded submit-search-button"
+                        id="submitSearchButton"
+                        type="submit">{{ 'booking.search'| aai18n }}
+                </button>
+            </div>
+            <div *ngIf="onVacationTab()"
+                 class="cell small-12 medium-12 large-4 vacation-package-search-button">
+                <button ail-primary-button
+                        aria-disabled="false"
+                        class="button primary expanded submit-search-button"
+                        id="submitVacationSearchButton"
+                        type="submit">{{ 'booking.search'| aai18n }}
+                    <span aria-hidden="true"
+                          class="icon-newpage"></span>
+                    <span class="hidden-accessible">{{ 'all1.newWindowExternal'| aai18n }}</span>
+
+                </button>
+            </div>
+            <div *ngIf="onVacationTab()"
+                 class="cell small-12 links-container">
+                <a ail-link
+                   href="/i18n/customer-service/support/optional-service-fees.jsp"
+                   type="cta">{{ 'booking.bagFees'| aai18n }}</a>
+            </div>
+            <div *ngIf="onFlightTab()"
+                 class="cell small-12 large-8 links-container">
+                <a ail-link
+                   href="/i18n/customer-service/support/optional-service-fees.jsp"
+                   type="cta">{{ 'booking.bagFees'| aai18n }}</a>
+            </div>
+            <div *ngIf="onFlightTab()"
+                 class="cell small-12 large-4 text-right-responsive links-container">
+                <a ail-link
+                   href="/booking/find-flights"
+                   type="cta">{{ 'booking.advancedSearch'| aai18n }}</a>
+            </div>
+            <div class="cell small-12 links-container">
+                <a ail-link
+                   href="/i18n/travel-info/baggage/checked-baggage-policy.jsp"
+                   type="cta">{{ 'booking.bagFeesAllowancesChanges'| aai18n }}</a>
+            </div>
+            <div class="cell small-12 links-container">
+                <a ail-link
+                   href="/i18n/customer-service/support/flying-with-american.jsp#preapringtotravel"
+                   type="cta">{{ 'booking.idRequirements'| aai18n }}</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="isDev"
+     class="grid-container"
+     style="margin-top: 0; text-align: right; padding: 0 5px;">
+    <div class="grid-x grid-padding-y"
+         style="padding: 5px;">
+        <div class="cell small-12"
+             style="padding: 5px;">
+            <button (click)="loadTrip(1)"
+                    ail-button
+                    ail-secondary-button
+                    class="button"
+                    style="padding: 5px 8px; font-size: 12px;">Load Round (1 pax)
+            </button>
+            <button (click)="loadTrip(2,'roundTrip', 'DEN', 'NYC', 4)"
+                    ail-button
+                    ail-secondary-button
+                    class="button"
+                    style="padding: 5px 8px; font-size: 12px;">Load Round (4 pax)
+            </button>
+            <button (click)="loadTrip(3,'oneWay', 'LUB', 'AUS', 1)"
+                    ail-button
+                    ail-secondary-button
+                    class="button"
+                    style="padding: 5px 8px; font-size: 12px;">Load OneWay (1 pax)
+            </button>
+            <button (click)="loadTrip(4,'oneWay', 'PHX', 'DFW', 2)"
+                    ail-button
+                    ail-secondary-button
+                    class="button"
+                    style="padding: 5px 8px; font-size: 12px;">Load Round (2 pax)
+            </button>
+        </div>
+        <div class="cell small-12"
+             style="padding: 5px;">
+            <button (click)="storeToLocal()"
+                    ail-button
+                    class="button"
+                    ail-secondary-button
+                    style="padding: 5px 8px; font-size: 12px;">
+                Write Local Storage
+            </button>
+            <button (click)="readLocal()"
+                    ail-button
+                    class="button"
+                    ail-secondary-button
+                    style="padding: 5px 8px; font-size: 12px;">
+                Read Local Storage
+            </button>
+            <button (click)="deleteLocal()"
+                    ail-button
+                    class="button"
+                    ail-secondary-button
+                    style="padding: 5px 8px; font-size: 12px;">
+                Delete Local Storage
+            </button>
+        </div>
+        <div class="cell small-12"
+             style="padding: 5px;">
+            <button (click)="loadCorporateBooking()"
+                    ail-secondary-button
+                    ail-button
+                    aria-disabled="false"
+                    class="button"
+                    id="loadCorporateBookingButton"
+                    style="padding: 5px 8px; font-size: 12px;">Load Corporate Booking
+            </button>
+            <button (click)="loadAirpass()"
+                    ail-button
+                    ail-secondary-button
+                    aria-disabled="false"
+                    class="button"
+                    id="loadAirpassButton"
+                    style="padding: 5px 8px; font-size: 12px;">Load AirPass
+            </button>
+            <button (click)="toggleLocale()"
+                    ail-button
+                    ail-secondary-button
+                    aria-disabled="false"
+                    class="button"
+                    id="toggleLocaleButton"
+                    style="padding: 5px 8px; font-size: 12px;">Toggle Locale
+            </button>
+        </div>
+    </div>
+
+</div>

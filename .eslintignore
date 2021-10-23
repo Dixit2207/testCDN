@@ -1,0 +1,13 @@
+# /node_modules/* and /bower_components/* ignored by default
+devops
+dist
+coverage
+jest
+out
+out-tsc
+*.conf.js
+*.*.js
+**/*.html
+**/main.ts
+pa11y.json
+pa11y-tests.js

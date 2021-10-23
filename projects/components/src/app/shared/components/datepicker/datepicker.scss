@@ -1,0 +1,126 @@
+::ng-deep ail-datepicker {
+    width: 40rem;
+    border: 1px solid #dfdfdf;
+    border-radius: .25rem;
+    display: inline-block;
+    z-index: 1000;
+    background: white;
+
+    &-month-view {
+        pointer-events: auto;
+    }
+}
+
+::ng-deep .cdk-visually-hidden {
+    visibility: hidden;
+}
+
+.-dp {
+    &-body {
+        z-index: 1050;
+    }
+
+    &-header {
+        border-bottom: 0;
+        border-radius: .25rem .25rem 0 0;
+        padding-top: .25rem;
+        background-color: #0061AB;
+        color: #fff;
+    }
+
+    &-months {
+        display: flex;
+    }
+
+    &-month {
+        pointer-events: none;
+        width: 100%;
+
+        @media screen and (min-width: 640px) {
+
+            &:first-child {
+                border-right: 2px solid #0078d2;
+            }
+        }
+
+        &-name {
+            font-size: larger;
+            height: 2rem;
+            line-height: 2rem;
+            text-align: center;
+            background-color: #f8f9fa;
+            background-color: var(--light);
+        }
+
+        & + & {
+
+            .-dp-month-name,
+            .-dp-week {
+                padding-left: 1rem;
+            }
+        }
+
+        &:last-child .-dp-week {
+            padding-right: .25rem;
+        }
+
+        &:first-child .-dp-week {
+            padding-left: .25rem;
+        }
+
+        .-dp-week:last-child {
+            padding-bottom: .25rem;
+        }
+    }
+}
+
+// mobile code
+
+@media only screen and (max-width: 640px) {
+    :host {
+        position: fixed !important;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        // transition: transform 0.5s;
+        color: #00467f;
+
+        .dp-footer {
+            display: none;
+        }
+
+        ::ng-deep .-dp-weekdays,
+        ::ng-deep .-dp-week {
+            display: flex;
+            border-bottom: none;
+            width: 100%;
+            justify-content: space-around;
+        }
+
+        .-dp-months {
+            flex-direction: column;
+            padding: 2rem;
+
+            .-dp-month-name {
+                background: white;
+                font-size: 1.5rem;
+                font-weight: 500;
+                line-height: 27px;
+                color: #627a88;
+            }
+
+            .-dp-day {
+                width: 3rem;
+                height: 3rem;
+                margin-bottom: 1rem;
+            }
+        }
+
+        ail-datepicker-month-view {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}

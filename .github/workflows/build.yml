@@ -1,0 +1,300 @@
+name: Build
+
+on: push
+
+env:
+    CREDS_USR: ${{ secrets.CREDS_PSW }}
+    CREDS_PSW: ${{ secrets.CREDS_USR }}
+    NS_KEY: ${{ secrets.NS_KEY }}
+    NS_KEYNAME: ${{ secrets.NS_KEYNAME }}
+    PROD: ${{ github.ref == 'refs/heads/main' }}
+    QA: ${{ github.ref == 'refs/heads/develop' }}
+    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+jobs:
+    setup-node_modules:
+        name: Setup Node Modules
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [ 14.x ]
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v2
+
+            -   name: Setting up Node v${{ matrix.node-version }}
+                uses: actions/setup-node@v1
+                with:
+                    node-version: ${{ matrix.node-version }}
+
+            -   name: Cache node modules
+                uses: actions/cache@v2
+                with:
+                    path: '**/node_modules'
+                    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+            -   name: Configure NPM Registry (Artifactory)
+                run: |
+                    npm set _auth `echo -n "${{secrets.ARTIFACTORY_CRED_USR}}:${{secrets.ARTIFACTORY_CRED_KEY}}" | openssl enc -A -base64`
+                    npm set registry https://packages.aa.com/artifactory/api/npm/npm-public/
+                    npm set always-auth true
+                    npm i -g npm@6.13.7
+                    npm -v
+
+            -   name: Install dependencies for Components
+                run: npm ci
+    build:
+        name: Build
+        needs: setup-node_modules
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [ 14.x ]
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v2
+
+            -   name: Load node_modules
+                uses: actions/cache@v2
+                with:
+                    path: '**/node_modules'
+                    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+            -   name: Build Web Components
+                if: ${{ github.ref != 'refs/heads/main' }}
+                run: |
+                    echo "${{env.QA}} => Build for QA!"
+                    npm run build:qa
+
+            -   name: Build Web Components
+                if: ${{ github.ref == 'refs/heads/main' }}
+                run: |
+                    echo "${{env.PROD}} => Build for PROD!"
+                    npm run build:prod
+
+            -   name: 'Upload Artifact'
+                uses: actions/upload-artifact@v2
+                with:
+                    name: homepage-webcomponents
+                    path: dist/components/
+                    if-no-files-found: error
+                    retention-days: 5
+    lint:
+        name: Lint
+        needs: build
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [ 14.x ]
+
+        steps:
+            -   name: Check out Git repository
+                uses: actions/checkout@v2
+
+            -   name: Load node_modules
+                uses: actions/cache@v2
+                with:
+                    path: '**/node_modules'
+                    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+            -   name: ESLint
+                run: npm run lint
+
+    #            -   name: StyleLint
+    #                run: npm run lint:stylelint
+    #                working-directory: ${{ env.working-directory }}
+
+    test:
+        name: Test
+        needs: lint
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [ 14.x ]
+
+        steps:
+            -   name: Check out Git repository
+                uses: actions/checkout@v2
+
+            -   name: Load node_modules
+                uses: actions/cache@v2
+                with:
+                    path: '**/node_modules'
+                    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+            -   name: Test Web Components
+                run: npm run test
+
+            #            -   name: Jest badges generation action
+            #                uses: jpb06/jest-badges-action@v1.3.1
+            #                with:
+            #                    branches: main,develop
+
+            -   name: Test Report
+                uses: dorny/test-reporter@v1
+                if: success() || failure()
+                with:
+                    name: JEST Tests Report
+                    path: dist/junit/junit.xml
+                    reporter: jest-junit
+
+            #            -   name: Test A11Y
+            #                run: npm run test:a11y:components
+
+    #    version:
+    #        name: Version release
+    #        if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' }}
+    #        runs-on: ubuntu-latest
+        #        needs: test
+        #        strategy:
+        #            matrix:
+        #                node-version: [ 14.x ]
+        #
+        #        env:
+        #            working-directory: ./components
+        #
+        #        steps:
+
+    #        -   if: ${{ matrix.node-version == '14.x' }}
+    #            name: Get Coverage for badge
+    #            run: |
+    #                # var SUMMARY = [
+    #                #   '',
+    #                #   '=============================== Coverage summary ===============================',
+    #                #   'Statements   : 32.5% ( 39/120 )',
+    #                #   'Branches     : 38.89% ( 21/54 )',
+    #                #   'Functions    : 21.74% ( 5/23 )',
+    #                #   'Lines        : 31.93% ( 38/119 )',
+    #                #   '================================================================================',
+    #                #   ''
+    #                # ];
+    #                # SUMMARY = SUMMARY.split('\n')[5]; // 'Lines        : 31.93% ( 38/119 )'
+    #                # SUMMARY = SUMMARY.split(':')[1].split('(')[0].trim(); // '31.93%'
+    #                SUMMARY="$(npm test -- --coverageReporters='text-summary' | tail -2 | head -1)"
+    #                TOKENS=($SUMMARY)
+    #                # process.env.COVERAGE = '31.93%';
+    #                echo "COVERAGE=$(echo ${TOKENS[2]})" >> $GITHUB_ENV
+    #
+    #                # var REF = 'refs/pull/27/merge.json';
+    #                REF=${{ github.ref }}
+    #                # console.log('github.ref: ' + REF);
+    #                echo "github.ref: $REF"
+    #                # var PATHS = REF.split('/');
+    #                IFS='/' read -ra PATHS <<< "$REF"
+    #                # var BRANCH_NAME = PATHS[1] + PATHS[2];
+    #                BRANCH_NAME="${PATHS[1]}_${PATHS[2]}"
+    #                # console.log(BRANCH_NAME); // 'pull_27'
+    #                echo $BRANCH_NAME
+    #                # process.env.BRANCH = 'pull_27';
+    #                echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
+    #            -   if: ${{ matrix.node-version == '14.x' }}
+    #                name: Create the Badge
+    #                uses: schneegans/dynamic-badges-action@v1.0.0
+    #                with:
+    #                    auth: ${{ secrets.AA_HP_GIST_SECRET }}
+    #                    gistID: 97ea261b9b3216b3e36915f9a9affb2d
+    #                    filename: web-product-homepage-client__${{ env.BRANCH }}.json
+    #                    label: Test Coverage
+    #                    message: ${{ env.COVERAGE }}
+    #                    color: green
+    #                    namedLogo: jest
+
+    deploy:
+        name: Deploy
+        if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' }}
+        runs-on: ubuntu-latest
+        needs: test
+        strategy:
+            matrix:
+                node-version: [ 14.x ]
+
+        steps:
+            -   name: Workflow Run Wait
+                uses: ahmadnassri/action-workflow-run-wait@v1.4.2
+
+            -   name: Report env
+                run: echo "QA => ${{env.QA}} || PROD => ${{env.PROD}}"
+
+            -   name: Checkout
+                uses: actions/checkout@v2
+
+            -   name: Download a single artifact
+                uses: actions/download-artifact@v2
+                with:
+                    name: homepage-webcomponents
+                    path: dist/components/
+
+            -   name: Load node_modules
+                uses: actions/cache@v2
+                with:
+                    path: '**/node_modules'
+                    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+            -   name: Release to QA CDN
+                if: ${{ github.ref == 'refs/heads/develop' }}
+                run: |
+                    echo "${{env.QA}} => Release to QA!"
+                    npm run release:qa
+
+            -   name: Release to PROD CDN
+                if: ${{ github.ref == 'refs/heads/main' }}
+                run: |
+                    echo "${{env.PROD}} => Release to PROD!"
+                    npm run release
+
+            -   name: Slack - GitHub Actions Slack integration
+                uses: act10ns/slack@v1.2.2
+                with:
+                    status: ${{ job.status }}
+                    steps: ${{ toJson(steps) }}
+                if: always()
+
+    purge-cache:
+        name: Purge Cache
+        runs-on: ubuntu-latest
+        needs: deploy
+        strategy:
+            matrix:
+                node-version: [ 14.x ]
+        env:
+            EDGERC: ${{ secrets.EDGERC }}
+        steps:
+            -   name: Purging QA NetStorage
+                if: ${{ github.ref == 'refs/heads/develop' }}
+                uses: ducksify/action-akamai-purge@1.1
+                with:
+                    type: 'cpcode'
+                    ref: '1197806'
+            -   name: Purging Prod NetStorage
+                if: ${{ github.ref == 'refs/heads/main' }}
+                uses: ducksify/action-akamai-purge@1.1
+                with:
+                    type: 'cpcode'
+                    ref: '1197003'
+    tower:
+        name: Tower
+        if: ${{ github.ref == 'refs/heads/main' }}
+        runs-on: ubuntu-latest
+        needs: purge-cache
+        strategy:
+            matrix:
+                node-version: [ 14.x ]
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v2
+            -   uses: actions/checkout@v2 # Checks out the action
+                with:
+                    repository: AAInternal/tower-action
+                    ref: v1 # Current release tag
+                    path: ./.github/actions/tower-action
+                    token: "${{ secrets.AAINTERNAL_READONLY_PAT }}" # Access token
+            -   name: Call TnT Tower
+                uses: ./.github/actions/tower-action
+                with:
+                    tower_url: ${{ secrets.TOWER_URL }} # AAInternal User Credential
+                    token_url: ${{ secrets.TOWER_TOKEN_URL }} # AAInternal Organizational secret
+                    client_id: ${{ secrets.TOWER_USR }} # AAInternal User Credential
+                    client_secret: ${{ secrets.TOWER_PWD }} # AAInternal User Credential
+                    archer_short_name: 'AAcom'
+                    squad360_id: '448401'

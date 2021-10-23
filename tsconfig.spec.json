@@ -1,0 +1,24 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "outDir": "dist/spec",
+        "types": [
+            "jest",
+            "node"
+        ],
+        "esModuleInterop": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
+    },
+    "files": [
+        "projects/components/src/polyfills.ts"
+    ],
+    "exclude": [
+        "dist/**/*.spec.js",
+        "projects/components/src/app/*.spec.js"
+    ],
+    "include": [
+        "projects/components/src/app/**/*.spec.ts",
+        "projects/components/src/app/**/*.d.ts"
+    ]
+}

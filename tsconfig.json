@@ -1,0 +1,55 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "./",
+        "declaration": false,
+        "downlevelIteration": true,
+        "emitDecoratorMetadata": true,
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "lib": [
+            "es2018",
+            "dom"
+        ],
+        "module": "ES2020",
+        "moduleResolution": "node",
+        "outDir": "./dist/out-tsc",
+        "sourceMap": true,
+        "target": "es5",
+        "paths": {
+            "@modules/*": [
+                "./projects/components/src/app/modules/*"
+            ],
+            "@shared/*": [
+                "./projects/components/src/app/shared/*"
+            ],
+            "@core/*": [
+                "./projects/components/src/app/core/*"
+            ],
+            "env": [
+                "./projects/components/src/environments/environment"
+            ],
+            "@scss/*": [
+                "./projects/components/src/assets/scss/core/*"
+            ],
+            "@angular/*": [
+                "./node_modules/@angular/*"
+            ],
+            "@aileron/*": [
+                "./node_modules/@aileron/*"
+            ],
+            "core-js/es6/*": [
+                "node_modules/core-js/es/*"
+            ],
+            "core-js/es7/reflect": [
+                "node_modules/core-js/proposals/reflect-metadata"
+            ]
+        },
+        "typeRoots": [
+            "node_modules/@types"
+        ]
+    }
+}

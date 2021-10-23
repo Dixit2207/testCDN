@@ -1,0 +1,97 @@
+{
+    "ally": {
+        "link": {
+            "newWindow": ", Ouvre dans une nouvelle fenêtre.",
+            "newWindowExternal": ", Ouvre un nouveau site dans une nouvelle fenêtre pouvant ne pas respecter les directives d'accessibilité."
+        }
+    },
+    "tabs": {
+        "book": "Réserver",
+        "manageTrips": "Gérer les voyages",
+        "yourTrips": "Vos voyages / Enregistrement",
+        "flightStatus": "Statut du vol",
+        "checkin": "Enregistrement"
+    },
+    "booking": {
+        "flight": "Vol",
+        "searchFlight": "Search flight",
+        "vacationPackages": "Forfaits vacances",
+        "searchVacationPackages": "Rechercher un forfait vacances",
+        "hotel": "Hôtel",
+        "roundTrip": "Aller-retour",
+        "oneWay": "Aller simple",
+        "redeemMiles": "Echanger des miles",
+        "airPass": "<b>Air</b>Pass",
+        "from": "De",
+        "fromPlaceholder": "Ville ou aéroport",
+        "fromAirportLookUp": "Aper\\u00E7u depuis l\\'a\\u00E9roport",
+        "to": "Vers",
+        "toPlaceholder": "Ville ou aéroport",
+        "toAirportLookUp": "Aper\\u00E7u vers l\\'a\\u00E9roport",
+        "numberOfPassengers": "Nombre de passagers",
+        "departure": "Départ",
+        "departurePlaceholder": "jj/mm/aaaa",
+        "return": "Retour",
+        "returnPlaceholder": "jj/mm/aaaa",
+        "farePreference": "Préférence tarifaire",
+        "coach": "Économique",
+        "business": "Affaires",
+        "first": "Première",
+        "search": "Rechercher",
+        "bagFees": "Frais liés aux bagages et aux services facultatifs",
+        "bagFeesAllowancesChanges": "Modifications apportées aux bagages enregistrés permis",
+        "idRequirements": "",
+        "basicEconomyBagFeesChanges": "Modifications apportées aux bagages enregistrés permis pour la classe Basic Economy",
+        "advancedSearch": "Recherche avancée ou multi-destinations",
+        "tripLink": "Pour l'entreprise"
+    },
+    "checkin": {
+        "firstName": "Prénom",
+        "lastName": "Nom de famille",
+        "recordLocator": "Confirmation / Localisateur d'enregistrement",
+        "ticketNumber": "Numéro de billet",
+        "search": "Find your trip"
+    },
+    "flightStatus": {
+        "searchBy": "Recherché par",
+        "cities": "Villes",
+        "flightNumber": "Numéro de Vol",
+        "date": "Date",
+        "wn4": "Mercredi 4 novembre",
+        "tn5": "Jeudi 5 novembre",
+        "fn6": "Vendredi 6 novembre",
+        "createStatusNotification": "Créer une notification de statut de vol"
+    },
+    "manageTrips": {
+        "manageTrips": "Manage Trips",
+        "viewCanceledTrips": "View Canceled Trips"
+    },
+    "global": {
+        "airportlookup": {
+            "heading": {
+                "title": "Recherche d'aéroport",
+                "message": "Indiquez-nous où se trouve l'aéroport."
+            },
+            "airport": "Aéroport",
+            "airportCode": "Code de l'aéroport",
+            "country": {
+                "text": "Pays / région",
+                "select": "Sélectionnez votre pays / région"
+            },
+            "province": {
+                "text": "Province",
+                "select": "Sélectionner une province"
+            },
+            "state": {
+                "text": "Etat",
+                "select": "Sélectionner un etat"
+            },
+            "city": {
+                "text": "Ville"
+            }
+        }
+    },
+    "dateFormats": {
+        "short": "dd/mm/yyyy"
+    }
+}

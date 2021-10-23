@@ -1,0 +1,19 @@
+{
+    "ERRCODE408": {
+        "title": "Une erreur s'est produite.",
+        "message": "Veuillez corriger le <a id=\"errors-link\" href=\"javascript:void(0);\">probl\u00E8me.</a>",
+        "message_plural": "Veuillez corriger les probl\u00E8mes.",
+        "messageWithCount": "Veuillez corriger le <a id=\"errors-link\" href=\"javascript:void(0);\">probl\u00E8me.</a>",
+        "messageWithCount_plural": "Veuillez corriger les <a id=\"errors-link\" href=\"javascript:void(0);\">{{count}} probl\u00E8mes.</a>"
+    },
+    "ERRCODE858": {
+        "title": "Notre syst\u00E8me rencontre des difficult\u00E9s",
+        "message": "Veuillez r\u00E9essayer ou revenir ult\u00E9rieurement."
+    },
+    "ERRCODE1256": "La ville ou l'aéroport de départ est obligatoire.",
+    "ERRCODE1257": "La ville ou l'aéroport d'arrivée est obligatoire.",
+    "ERRCODE1258": "Nous n'avons pas été en mesure de trouver la ville ou l'aéroport saisi.",
+    "ERRCODE1259": "La date est obligatoire.",
+    "ERRCODE1260": "Veuillez vérifier la date saisie.",
+    "ERRCODE1356": "Vous pourrez réserver cette date à compter du"
+}

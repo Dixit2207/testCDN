@@ -1,0 +1,14 @@
+{
+    "/homepage/components/": {
+        "target": "https://cdn.aa.com",
+        "logLevel": "debug",
+        "secure": false,
+        "pathRewrite": {
+            "homepage/components/polyfills-es5.js": "polyfills-es5.js",
+            "homepage/components/polyfills-es2015.js": "polyfills-es2015.js",
+            "homepage/components/scripts.js": "scripts.js",
+            "homepage/components/main-es2015.js": "main-es2015.js",
+            "homepage/components/main-es5.js": "main-es5.js"
+        }
+    }
+}

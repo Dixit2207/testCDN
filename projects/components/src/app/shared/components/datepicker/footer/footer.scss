@@ -1,0 +1,37 @@
+.dp-footer-container {
+    background-color: #ebeff0;
+    border-top: 1px solid #ebeff0 !important;
+}
+
+.dp-footer-btn-container {
+    padding: 0.25rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.footer-buttons {
+    margin: 1px;
+    background-color: #ebeff0;
+    font-size: 1rem;
+    color: #00467f;
+    cursor: pointer;
+    font-weight: 500;
+    border: 1px solid #ebeff0;
+}
+
+.footer-buttons:hover,
+.footer-buttons:active,
+.footer-buttons:focus {
+    text-decoration: underline;
+}
+
+.accessibility-instructions {
+    font-size: 12px;
+}
+
+@media only screen and (max-width: 640px) {
+    :host {
+        display: none;
+    }
+}

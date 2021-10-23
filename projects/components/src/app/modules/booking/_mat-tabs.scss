@@ -1,0 +1,80 @@
+:host {
+    $baseFontSize: 14;
+    $standardFontFamily: arial, sans-serif;
+    $baseFontFamily: $standardFontFamily;
+    $baseLineHeight: 20px;
+
+    .mat-ui-tabs-nav {
+        font-family: Arial, sans-serif;
+        background-color: $ultraLightGray;
+        list-style: none;
+        margin: 0;
+        width: 100%;
+
+        .mat-ui-tab {
+            color: $brandBlue;
+            font-size: 20px;
+            height: 55px;
+            width: 100%;
+            opacity: 1;
+            border: none;
+            border-right: 1px solid $lightGray;
+
+            &:last-child {
+                border-right: none;
+            }
+
+            &:focus,
+            &:hover {
+                outline: none;
+                text-decoration: underline;
+                text-align: center;
+            }
+
+            &.active {
+                background: $white;
+                border: none;
+                border-right: 1px solid $lightGray;
+                list-style: none;
+                //text-decoration: underline;
+                white-space: nowrap;
+
+                &:last-child {
+                    border-right: none;
+                }
+            }
+        }
+    }
+
+    @media all and (max-width: 480px) {
+        .mat-booking-tabs .mat-ui-tab {
+            height: 36px;
+            font-size: 14px;
+        }
+    }
+
+    @media all and (min-width: 480px) and (max-width: 640px) {
+        .mat-booking-tabs .mat-ui-tab {
+            font-size: 16px;
+            height: 42px;
+        }
+    }
+
+    @media all and (min-width: 640px) and (max-width: 768px) {
+        .mat-booking-tabs .mat-ui-tab {
+            line-height: 50px;
+            font-size: 18px;
+            height: 50px;
+        }
+    }
+
+    /*@media all and (min-width: 768px) and (max-width: 1024px) {
+         .mat-booking-tabs .mat-ui-tab {
+         }
+     }*/
+
+    /*@media all and (min-width: 1024px) {
+        .mat-booking-tabs .mat-ui-tab {
+        }
+    }*/
+}

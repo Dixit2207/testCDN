@@ -1,0 +1,14 @@
+::ng-deep {
+    .dialog-container__dialog {
+        //position: fixed;
+        z-index: 20;
+        min-width: 600px;
+        min-height: 316px;
+    }
+
+    .airport-form-container {
+        max-height: 60vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+}

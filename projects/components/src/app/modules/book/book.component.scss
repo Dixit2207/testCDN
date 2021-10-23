@@ -1,0 +1,213 @@
+@import "settings";
+@import "~@aileron/ui/scss/utils/mixins/font-text-size";
+@import "~@aileron/ui/scss/utils/functions/px-to-rem";
+@import "~@aileron/ui/scss/utils/grid/xy-grid/collapse";
+@import "~@aileron/ui/scss/library.blocks/form/radio/radio";
+@import "pillbox";
+
+:host {
+    .text-right-responsive {
+        text-align: left;
+    }
+
+    .flightTypes {
+        display: block;
+        width: auto;
+
+        @media (min-width: 480px) {
+            display: inline-block;
+            margin-right: 30px;
+        }
+    }
+
+    .flightTypeRadio,
+    .redeemMilesCheckBox,
+    .airPassCheckBox,
+    .tripLinkCheckBox {
+        display: inline-block;
+        width: auto;
+        margin-right: 15px;
+    }
+
+    ::ng-deep .field.field--checkbox .field__as-control,
+    ::ng-deep .field__label span {
+        //cursor: default !important;
+    }
+
+    ::ng-deep input[disabled] + .field__label {
+        color: #d0dae0 !important;
+    }
+
+    .form-field-container.field--button-group,
+    .field {
+        margin-bottom: 12px;
+    }
+
+    .booking-type-group {
+        list-style: none;
+        margin-left: 0;
+        display: inline-block;
+        width: auto;
+        margin-right: 15px;
+    }
+
+    .button.primary.expanded {
+        line-height: 0.85;
+    }
+
+    .travel-links-container {
+        display: inline-block;
+        position: absolute;
+    }
+
+    .type-link {
+        float: left;
+        margin-top: 4px;
+        margin-left: 20px;
+        margin-right: 10px;
+        font-size: px-to-rem(14);
+    }
+
+    .hidden-accessible {
+        border: 0 none;
+        clip: rect(0, 0, 0, 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+
+    .cell.links-container {
+        padding-top: 0;
+        font-size: px-to-rem(14);
+    }
+
+    .home-page-booking-webcomponent {
+        width: 69.85%;
+        background-color: $white;
+        float: right;
+        min-height: 28em;
+        background-position: 50% bottom;
+        background-repeat: no-repeat;
+        background-size: 100% 4px;
+        //background-image: url(/content/images/chrome/rebrand/shadow12-up.png);
+        background-image: url("https://qa.cdn.aa.com/homepage/components/assets/images/shadow12-up.png");
+    }
+
+    .field__button {
+        color: $brandBlue !important;
+        position: absolute;
+        top: 1px;
+        right: 1px;
+
+        &:focus {
+            outline: 1px solid $brandBlue;
+        }
+
+        [class^=icon-]::before {
+            font-size: rem-calc(16);
+        }
+    }
+
+    ::ng-deep .icon-double-arrow-right {
+        margin-left: auto;
+    }
+
+    .submit-search-button {
+        font-size: rem-calc(18) !important;
+        font-family: $american-sans-medium !important;
+    }
+
+    .submit-search-button-oneWay {
+        margin-left: 34.7%;
+    }
+
+    .vacation-package-search-button {
+        margin-left: 68%;
+    }
+
+    /**CUSTOM DATEPICKER CSS - START*/
+    [aildatepicker] {
+        position: absolute !important;
+        height: 1px;
+        width: 1px;
+        overflow: hidden;
+        clip: rect(1px 1px 1px 1px);
+
+        /*IE6, IE7*/
+        clip: rect(1px, 1px, 1px, 1px);
+        white-space: nowrap;
+
+        /*added line*/
+    }
+
+    .custom-day {
+        text-align: center;
+        display: inline-block;
+        height: 100%;
+        width: 100%;
+        margin-bottom: 0;
+        padding: 13px 7px 11px;
+
+        &.focused {
+            background-color: #ebeff0;
+            text-decoration: underline;
+        }
+
+        &.range,
+        &:hover,
+        &.faded:hover {
+            background-color: #00467f;
+            color: white;
+        }
+
+        &.faded {
+            background: #e5f1fa;
+            color: #00467f;
+        }
+    }
+
+    /**CUSTOM DATEPICKER CSS - OVER*/
+
+    .fixErrorContainer {
+        margin-bottom: 25px;
+        margin-top: -20px; /*Here to negate the 20px padding in the grid container and 20px margin from the callout*/
+    }
+
+    .fixErrorMessage {
+        margin-top: 0.2rem;
+        margin-bottom: 0;
+    }
+
+    #errorCount {
+        font-family: "AmericanSansMedium", Calibri, Helvetica, Arial, sans-serif;
+        text-decoration: underline;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    @media (min-width: 640px) {
+        .text-right-responsive {
+            text-align: right;
+        }
+    }
+
+    @media (max-width: 639px) {
+        .booking-type-group {
+            margin-right: 5px;
+        }
+
+        .vacation-package-search-button,
+        .submit-search-button-oneWay {
+            margin-left: 0.66667rem;
+        }
+
+        .calendar-container {
+            width: calc(50% - 2rem);
+        }
+    }
+}

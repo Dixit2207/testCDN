@@ -1,0 +1,19 @@
+{
+    "ERRCODE408": {
+        "title": "Something went wrong",
+        "message": "Please fix the <a id=\"errors-link\" href=\"javascript:void(0);\">error.</a>",
+        "message_plural": "Please fix the errors.",
+        "messageWithCount": "Please fix the <a id=\"errors-link\" href=\"javascript:void(0);\">error.</a>",
+        "messageWithCount_plural": "Please fix the <a id=\"errors-link\" href=\"javascript:void(0);\">{{count}} errors.</a>"
+    },
+    "ERRCODE858": {
+        "title": "Our system is having trouble",
+        "message": "Please try again or come back later."
+    },
+    "ERRCODE1256": "Departure city/airport is required.",
+    "ERRCODE1257": "Arrival city/airport is required.",
+    "ERRCODE1258": "We couldn't find the city/airport you entered.",
+    "ERRCODE1259": "Date is required.",
+    "ERRCODE1260": "Please check the date you entered.",
+    "ERRCODE1356": "You can book this date beginning"
+}

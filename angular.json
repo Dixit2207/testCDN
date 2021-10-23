@@ -1,0 +1,362 @@
+{
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "version": 1,
+    "newProjectRoot": "projects",
+    "projects": {
+        "components": {
+            "projectType": "application",
+            "schematics": {
+                "@schematics/angular:component": {
+                    "style": "scss"
+                }
+            },
+            "root": "projects/components",
+            "sourceRoot": "projects/components/src",
+            "prefix": "hp",
+            "architect": {
+                "build": {
+                    "builder": "ngx-build-plus:browser",
+                    "options": {
+                        "outputPath": "dist/components",
+                        "index": "projects/components/src/index.html",
+                        "main": "projects/components/src/main.ts",
+                        "polyfills": "projects/components/src/polyfills.ts",
+                        "tsConfig": "projects/components/tsconfig.app.json",
+                        "aot": true,
+                        "optimization": false,
+                        "outputHashing": "all",
+                        "sourceMap": true,
+                        "namedChunks": true,
+                        "extractLicenses": true,
+                        "vendorChunk": false,
+                        "buildOptimizer": false,
+                        "budgets": [
+                            {
+                                "type": "initial",
+                                "maximumWarning": "5mb",
+                                "maximumError": "15mb"
+                            },
+                            {
+                                "type": "anyComponentStyle",
+                                "maximumWarning": "25kb",
+                                "maximumError": "70kb"
+                            }
+                        ],
+                        "allowedCommonJsDependencies": [
+                            "@aileron/components",
+                            "zone.js"
+                        ],
+                        "stylePreprocessorOptions": {
+                            "includePaths": [
+                                "projects/components/src/assets/scss/partials"
+                            ]
+                        },
+                        "assets": [
+                            "projects/components/src/assets"
+                        ],
+                        "styles": [
+                            "projects/components/src/assets/scss/styles.scss"
+                        ],
+                        "scripts": [
+                            "node_modules/marked/lib/marked.js",
+                            "node_modules/@webcomponents/custom-elements/src/native-shim.js",
+                            "node_modules/rxjs/bundles/rxjs.umd.js",
+                            "node_modules/@angular/core/bundles/core.umd.js",
+                            "node_modules/@angular/common/bundles/common.umd.js",
+                            "node_modules/@angular/common/bundles/common-http.umd.js",
+                            "node_modules/@angular/compiler/bundles/compiler.umd.js",
+                            "node_modules/@angular/elements/bundles/elements.umd.js",
+                            "node_modules/@angular/platform-browser/bundles/platform-browser.umd.js",
+                            "node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js"
+                        ]
+                    },
+                    "configurations": {
+                        "qa": {
+                            "fileReplacements": [
+                                {
+                                    "replace": "projects/components/src/environments/environment.ts",
+                                    "with": "projects/components/src/environments/environment.qa.ts"
+                                }
+                            ],
+                            "optimization": true,
+                            "outputHashing": "all",
+                            "sourceMap": {
+                                "scripts": true,
+                                "styles": true,
+                                "vendor": true,
+                                "hidden": false
+                            },
+                            "namedChunks": true,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "buildOptimizer": true,
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "5mb",
+                                    "maximumError": "15mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "25kb",
+                                    "maximumError": "70kb"
+                                }
+                            ]
+                        },
+                        "production": {
+                            "fileReplacements": [
+                                {
+                                    "replace": "projects/components/src/environments/environment.ts",
+                                    "with": "projects/components/src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "optimization": true,
+                            "outputHashing": "all",
+                            "sourceMap": {
+                                "scripts": true,
+                                "styles": true,
+                                "vendor": true,
+                                "hidden": false
+                            },
+                            "namedChunks": true,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "buildOptimizer": true,
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "5mb",
+                                    "maximumError": "15mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "25kb",
+                                    "maximumError": "70kb"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "serve": {
+                    "builder": "ngx-build-plus:dev-server",
+                    "options": {
+                        "browserTarget": "components:build",
+                        "port": 4201,
+                        "open": false,
+                        "host": "0.0.0.0",
+                        "liveReload": true,
+                        "allowedHosts": [
+                            "http://localhost:4200",
+                            "https://localhost:8443",
+                            "https://search-availability-interstitial-page.qa.aa.com/booking/find-flights/search"
+                        ]
+                    },
+                    "configurations": {
+                        "qa": {
+                            "browserTarget": "components:build:qa"
+                        },
+                        "production": {
+                            "browserTarget": "components:build:production"
+                        }
+                    }
+                },
+                "extract-i18n": {
+                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "options": {
+                        "browserTarget": "components:build"
+                    }
+                },
+                "test": {
+                    "builder": "@angular-builders/jest:run",
+                    "options": {
+                        "no-cache": true,
+                        "watch": false,
+                        "verbose": false
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-eslint/builder:lint",
+                    "options": {
+                        "lintFilePatterns": [
+                            "projects/components/src/**/*.ts",
+                            "projects/components/src/**/*.component.html"
+                        ],
+                        "quiet": true
+                    }
+                },
+                "e2e": {
+                    "builder": "@angular-devkit/build-angular:protractor",
+                    "options": {
+                        "protractorConfig": "projects/components/e2e/protractor.conf.js",
+                        "devServerTarget": "components:serve"
+                    },
+                    "configurations": {
+                        "production": {
+                            "devServerTarget": "components:serve:production"
+                        }
+                    }
+                },
+                "deploy": {
+                    "builder": "@aileron-devkit/deploy-netstorage:deploy",
+                    "options": {
+                        "sourcePath": "dist/components",
+                        "uploadPath": "homepage/components",
+                        "ssl": true,
+                        "hostname": "ctw-nsu.akamaihd.net",
+                        "noBuild": true,
+                        "cpCode": "970107"
+                    },
+                    "configurations": {
+                        "production": {
+                            "cpCode": "970108"
+                        }
+                    }
+                }
+            }
+        },
+        "homepage-client": {
+            "projectType": "application",
+            "schematics": {
+                "@schematics/angular:component": {
+                    "style": "scss"
+                }
+            },
+            "root": "projects/homepage-client",
+            "sourceRoot": "projects/homepage-client/src",
+            "prefix": "app",
+            "architect": {
+                "build": {
+                    "builder": "ngx-build-plus:browser",
+                    "options": {
+                        "outputPath": "dist/homepage-client",
+                        "index": "projects/homepage-client/src/index.html",
+                        "main": "projects/homepage-client/src/main.ts",
+                        "polyfills": "projects/homepage-client/src/polyfills.ts",
+                        "tsConfig": "projects/homepage-client/tsconfig.app.json",
+                        "assets": [
+                            "projects/homepage-client/src/favicon.ico",
+                            "projects/homepage-client/src/assets"
+                        ],
+                        "styles": [
+                            "node_modules/@aileron/ui/dist/css/app.min.css",
+                            "projects/homepage-client/src/styles.scss"
+                        ],
+                        "scripts": [],
+                        "vendorChunk": true,
+                        "extractLicenses": false,
+                        "buildOptimizer": false,
+                        "sourceMap": true,
+                        "optimization": false,
+                        "namedChunks": true
+                    },
+                    "configurations": {
+                        "production": {
+                            "fileReplacements": [
+                                {
+                                    "replace": "projects/homepage-client/src/index.html",
+                                    "with": "projects/homepage-client/src/index.prod.html"
+                                },
+                                {
+                                    "replace": "projects/homepage-client/src/environments/environment.ts",
+                                    "with": "projects/homepage-client/src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "optimization": true,
+                            "outputHashing": "all",
+                            "sourceMap": {
+                                "scripts": true,
+                                "styles": true,
+                                "vendor": true,
+                                "hidden": false
+                            },
+                            "namedChunks": false,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "2mb",
+                                    "maximumError": "5mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "6kb",
+                                    "maximumError": "10kb"
+                                }
+                            ]
+                        },
+                        "qa": {
+                            "budgets": [
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "6kb"
+                                }
+                            ],
+                            "fileReplacements": [
+                                {
+                                    "replace": "projects/homepage-client/src/index.html",
+                                    "with": "projects/homepage-client/src/index.qa.html"
+                                },
+                                {
+                                    "replace": "projects/homepage-client/src/environments/environment.ts",
+                                    "with": "projects/homepage-client/src/environments/environment.qa.ts"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "serve": {
+                    "builder": "ngx-build-plus:dev-server",
+                    "options": {
+                        "browserTarget": "homepage-client:build",
+                        "proxyConfig": "projects/homepage-client/proxy.conf.json",
+                        "optimization": false
+                    },
+                    "configurations": {
+                        "production": {
+                            "browserTarget": "homepage-client:build:production",
+                            "proxyConfig": "projects/homepage-client/proxy.conf.prod.json"
+                        },
+                        "qa": {
+                            "browserTarget": "homepage-client:build:qa",
+                            "proxyConfig": "projects/homepage-client/proxy.conf.qa.json"
+                        }
+                    }
+                },
+                "extract-i18n": {
+                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "options": {
+                        "browserTarget": "homepage-client:build"
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-eslint/builder:lint",
+                    "options": {
+                        "lintFilePatterns": [
+                            "projects/homepage-client/src/**/*.ts",
+                            "projects/homepage-client/src/**/*.component.html"
+                        ],
+                        "quiet": true
+                    }
+                },
+                "e2e": {
+                    "builder": "@angular-devkit/build-angular:protractor",
+                    "options": {
+                        "protractorConfig": "projects/homepage-client/e2e/protractor.conf.js",
+                        "devServerTarget": "homepage-client:serve"
+                    },
+                    "configurations": {
+                        "production": {
+                            "devServerTarget": "homepage-client:serve:production"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "defaultProject": "components",
+    "cli": {
+        "analytics": false,
+        "defaultCollection": "@angular-eslint/schematics"
+    }
+}

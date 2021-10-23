@@ -1,0 +1,163 @@
+<main aria-label="main content"
+      class="booking-component main">
+    <section class="home-page-booking-webcomponent"
+             *ngIf="tabsInitialized"
+             id="home-page-widgets">
+
+        <!--<mat-tab-group>
+            <mat-tab label="Basic Setting">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </mat-tab>
+
+            <mat-tab label="SMS Setting">
+                <p>This is SMS Setting</p>
+            </mat-tab>
+
+            <mat-tab label="Email Setting">
+                <p>This is Email Setting</p>
+            </mat-tab>
+        </mat-tab-group>-->
+
+        <!--               aria-selected="{{selectedTab === tabItem.id ? true : false}}"-->
+        <nav animationDuration="0ms"
+             aria-label="AA Booking Tabs - Fix this"
+             class="mat-ui-tabs-nav"
+             mat-align-tabs="center"
+             mat-tab-nav-bar
+             role="tablist"
+        >
+            <a (click)="activeTab = tabItem"
+               *ngFor="let tabItem of tabs"
+               [active]="activeTab == tabItem"
+               [routerLink]="tabItem.route"
+               class="mat-ui-tab"
+               id="{{tabItem.id}}"
+               mat-tab-link
+               role="tab"
+               routerLinkActive="active"
+               skipLocationChange="updateAddress"
+               tabIndex="{{selectedTab === tabItem.id ? 0 : -1}}">{{translate(tabItem.label)}}</a>
+        </nav>
+
+        <!--        <div class="mat-booking-tabs">-->
+        <!--<mat-tab-group>
+            <mat-tab *ngFor="let tabItem of tabs">
+                {{translate(tabItem.label)}}
+            </mat-tab>
+        </mat-tab-group>-->
+
+        <!--<div class="mat-ui-tabs-nav"
+             role="tablist">
+            <ul>
+                <li *ngFor="let tabItem of tabs"
+                    aria-labelledby="{{tabItem.id}}"
+                    role="tab">
+                    <a mat-tab-link
+                       id="{{tabItem.id}}"
+                       class="mat-ui-tabs-anchor"
+                       routerLinkActive="tab-active"
+                       skipLocationChange="updateAddress"
+                       role="tab">
+                        {{translate(tabItem.label)}}
+                    </a>
+                </li>
+            </ul>
+        </div>-->
+        <!--        </div>-->
+        <router-outlet></router-outlet>
+    </section>
+</main>
+
+<!--<main aria-label="main content"
+      class="booking-component main">
+    <section class="home-page-booking-webcomponent"
+             id="home-page-widgets-orig">
+        <div class="booking-tabs">
+            <ul class="ui-tabs-nav"
+                role="tablist">
+                <li [ngClass]="{'ui-tabs-active': tabName === 'book'}"
+                    aria-controls="aa-booking-module"
+                    aria-labelledby="jq-findFlights"
+                    aria-selected="true"
+                    id="aa-tab-booking-module"
+                    role="tab"
+                    tabindex="0">
+                    <a (click)="activateTab('book')"
+                       class="ui-tabs-anchor"
+                       id="jq-findFlights"
+                       role="presentation"
+                       tabindex="-1">
+                        {{translate("tabs.book")}}
+                    </a>
+                </li>
+                <li [ngClass]="{'ui-tabs-active': tabName === 'manage-trips'}"
+                    aria-controls="aa-viewReservations"
+                    aria-labelledby="jq-manage-trips"
+                    aria-selected="false"
+                    id="aa-tab-viewReservations"
+                    role="tab"
+                    tabindex="-1">
+                    <a (click)="activateTab('manage-trips')"
+                       class="ui-tabs-anchor"
+                       href="#aa-manage-trips"
+                       id="jq-manage-trips"
+                       role="presentation"
+                       skipLocationChange="updateAddress"
+                       tabindex="-1">
+                        {{translate("tabs.manageTrips")}}
+                    </a>
+                </li>
+                <li [ngClass]="{'ui-tabs-active': tabName === 'checkin'}"
+                    aria-controls="aa-checkin"
+                    aria-labelledby="jq-checkin"
+                    aria-selected="false"
+                    id="aa-tab-checkin"
+                    role="tab"
+                    tabindex="-1">
+                    <a (click)="activateTab('checkin')"
+                       class="ui-tabs-anchor"
+                       href="#aa-checkin"
+                       id="jq-checkin"
+                       role="presentation"
+                       skipLocationChange="updateAddress"
+                       tabindex="-1">
+                        {{translate("tabs.checkin")}}
+                    </a>
+                </li>
+                <li [ngClass]="{'ui-tabs-active': tabName === 'flight-status'}"
+                    aria-controls="aa-hp-flightStatus"
+                    aria-labelledby="jq-flightStatus"
+                    aria-selected="false"
+                    id="aa-tab-flightStatus"
+                    role="tab"
+                    tabindex="-1">
+                    <a (click)="activateTab('flight-status')"
+                       class="ui-tabs-anchor"
+                       href="#aa-hp-flightStatus"
+                       id="jq-flightStatus"
+                       role="presentation"
+                       skipLocationChange="updateAddress"
+                       tabindex="-1">
+                        {{translate("tabs.flightStatus")}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div *ngIf="tabsInitialized"
+             class="tab-container">
+            <hp-book [ngClass]="{'active': tabName == 'book'}"
+                     class="tab-panel"></hp-book>
+            <hp-manage-trips [ngClass]="{'active': tabName == 'manage-trips'}"
+                             class="tab-panel"></hp-manage-trips>
+            <hp-checkin [ngClass]="{'active': tabName == 'checkin'}"
+                        class="tab-panel"></hp-checkin>
+            <hp-flight-status [ngClass]="{'active': tabName == 'flight-status'}"
+                              class="tab-panel"></hp-flight-status>
+        </div>
+    </section>
+</main>-->

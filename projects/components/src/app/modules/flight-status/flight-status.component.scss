@@ -1,0 +1,31 @@
+@import "settings";
+@import "~@aileron/ui/scss/settings/color-palette";
+@import "~@aileron/ui/scss/utils/mixins/font-text-size";
+@import "pillbox";
+
+:host {
+    .tab-container {
+        background-color: $white;
+        position: relative;
+        min-height: 250px;
+    }
+
+    .search-by-container {
+        margin-bottom: 15px;
+    }
+
+    .search-by-type {
+        display: inline-block;
+    }
+
+    .search-by {
+        display: inline-block;
+        line-height: 30px;
+        vertical-align: top;
+        color: #36495a;
+    }
+
+    .create-notification-link {
+        font-size: 14px;
+    }
+}
